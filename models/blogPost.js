@@ -14,8 +14,12 @@ const bloggerSchema = new Schema({
     date:{
         type:Date,
         required:true
+    },
+    author:{
+        type:Schema.Types.ObjectId,
+        ref:"User"
     }
 })
 
-module.exports = mongoose.model('Blogger',bloggerSchema)
+module.exports = mongoose.model('BlogPost',bloggerSchema)
 

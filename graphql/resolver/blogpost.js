@@ -2,7 +2,7 @@ const BlogPost = require('../../models/blogPost')
 
 const User = require('../../models/user')
 
-
+const {transfromBlogpost} = require('./merge')
 module.exports = {
     blogPosts: async () => {
         try{
@@ -12,7 +12,7 @@ module.exports = {
                     ...blogpost._doc,
                     _id: blogpost.id,
                     date:blogpost._doc.date,
-                    creator:user.bind(this,blogpost._doc.creator)
+                    author:user.bind(this,blogpost._doc.author)
                 }
             })
         }catch(err){
@@ -20,21 +20,37 @@ module.exports = {
         }
    
     },
-    createBlogPost: async (args) => {
+    createBlogPost: async (args,req) => {
+      if(!req.isAuth){
+        
+        throw new Error("Unauthentificated!")
+      }
+      console.log(req.isAuth)
       const blogPost = new BlogPost({
         title: args.blogPostInput.title,
         description: args.blogPostInput.description,
-        date: new Date()
+        date: new Date(),
+        author:req.userId
       });
+     
 
-      return blogPost
-        .save()
-        .then(result => {
-          console.log(result);
-          return { ...result._doc, _id: result.id };
-        })
-        .catch(err => {
-          console.log(err);
-        }); //It's a promise if return it
+      try{
+        const result = await blogPost.save()
+        let createdBlogPost = transfromBlogpost(result)
+        
+        const author = await User.findById(req.userId);
+
+        if(!author){
+          throw new Error("User not found")
+        }
+        author.createdBlogPosts.push(createdBlogPost)
+        await author.save()
+        return createdBlogPost
+      }catch(err){
+        throw err
+      }
+    
+
+      
     }
 }

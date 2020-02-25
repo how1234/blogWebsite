@@ -42,7 +42,8 @@ const transfromBlogpost = blogPost => {
         ...blogPost._doc,
         _id:blogPost.id,
         date:dateToString(blogPost._doc.date),
-        creator: singleUser.bind(this,event.creator)
+        author: singleUser.bind(this,blogPost._doc._author)
     };
 }
 
+exports.transfromBlogpost = transfromBlogpost

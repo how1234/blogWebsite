@@ -25,17 +25,14 @@ app.use(
   })
 );
 
-app.get("/", (req, res, next) => {
-  res.send("hello world!");
-});
 
 mongoose
   .connect(mongoURL)
   .then(() => {
-    console.log(3000);
+    console.log("Server runs on local 8000");
   })
   .catch(err => {
     console.log(err);
   });
 
-app.listen(3000);
+app.listen(8000);

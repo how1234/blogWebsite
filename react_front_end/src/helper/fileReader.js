@@ -5,7 +5,7 @@ export const toBase64 = file =>
     reader.onload = () => resolve(reader.result);
     reader.onerror = error => reject(error);
   });
-
+//https://stackoverflow.com/questions/35940290/how-to-convert-base64-string-to-javascript-file-object-like-as-from-file-input-f
 export const fromBase64 = (dataurl, filename) => {
   var arr = dataurl.split(","),
     mime = arr[0].match(/:(.*?);/)[1],
@@ -21,13 +21,15 @@ export const fromBase64 = (dataurl, filename) => {
 };
 
 
-export const fromFile = (file) =>{
+export const fromFile = file => new Promise((resolve,reject) =>{
   var reader = new FileReader();
         reader.readAsText(file);
 
-    reader.onload = function(e){
+    reader.onload = (e) =>{
         var extractedTxt = e.target.result;
-        console.log(extractedTxt)
+        resolve( extractedTxt)
     }
+    reader.onerror = error => reject(error);
 
-}
+
+})

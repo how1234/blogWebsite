@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { Upload, Button, Icon } from "antd";
+import { Upload, Button, Icon,message } from "antd";
 import { toBase64,fromBase64,fromFile } from "../helper/fileReader";
+import MarkdownArea from "./markdownArea";
 const UploadButton = () => {
   const [fileList, setFileList] = useState([]);
   const [uploading, setUploading] = useState(false);
+  const [test, setTest] = useState("hello");
 
 
   const handleUpload = async () => {
@@ -16,25 +18,40 @@ const UploadButton = () => {
             const fileObject = {fileData:based64File,fileName:file.name}
             sentFiles.push(fileObject)
         }
+        let aFile = fromBase64(sentFiles[0].fileData,sentFiles[0].fileName)
+      
+        const textFile = await fromFile(aFile)
        
+        setTest(textFile)
+        
+   
+        await sendFile(sentFiles)
+        
         setUploading(true);
 
         
+   
+    }catch(err){
+        throw err
+    }
+   
+
+
+  };
+
+  const sendFile = async (sentFiles)=>{
     fetch("http://localhost:8000/graphql",{
         method:"POST",
         body: JSON.stringify({ sentFiles }),
         headers: {
           "Content-Type": "application/json"
         },
+    }).then().catch(err => {
+        setUploading(false)
+        setFileList([])
+        message.error(err)
     })
-    }catch(err){
-        throw err
-    }
-   
-
-    
-
-  };
+  }
 
   const onRemove = file => {
     const index = fileList.indexOf(file);
@@ -49,22 +66,7 @@ const UploadButton = () => {
   };
 
 
-//   const uploadProps = {
-//     action: async file => {
-//       const based64File = await toBase64(file);
-//       console.log(based64File);
-//       fetch("http://localhost:8000/graphql", {
-//         method: "POST",
-        // body: JSON.stringify({ based64File }),
-        // headers: {
-        //   "Content-Type": "application/json"
-        // },
-       
-//       });
-//     },
-//     onChange: handleChange,
-//     multiple: true
-//   };
+
 
 const uploadProps = {
     onRemove,
@@ -87,6 +89,8 @@ const uploadProps = {
         >
           {uploading ? 'Uploading' : 'Start Upload'}
         </Button>
+
+        {/* <MarkdownArea input={test}></MarkdownArea> */}
     </div>
   );
 };

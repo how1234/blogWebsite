@@ -73,8 +73,10 @@ function SidersNav() {
         </Menu.Item>
 
         <Menu.Item key="3">
-          <Icon type="form" />
-          <span>Blog</span>
+        <Link to="/blog">
+            <Icon type="form" />
+            <span>Blog</span>
+          </Link>
         </Menu.Item>
         {
             isLogin &&

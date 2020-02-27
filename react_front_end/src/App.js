@@ -12,13 +12,14 @@ import SideNavs from "./components/sidersNav";
 import HomePage from "./pages/homePage";
 import UserCenter from './pages/userCenter'
 import LoginPage from "./pages/loginPage";
+import BlogPage from "./pages/blogPage";
 
 const { Header, Content } = Layout;
 
 function App() {
-  const disPatch  = useDispatch()
+  // const disPatch  = useDispatch()
 
-  disPatch({type:"INITIAL"})
+  // disPatch({type:"INITIAL"})
   const isLogin = useSelector( (state) => state.isLogin)
   
   
@@ -29,7 +30,7 @@ function App() {
         <Layout>
           <Content
             style={{
-              margin: "24px 16px",
+              margin: "8px 8px",
               padding: 24,
               background: "#fff",
               minHeight: 280
@@ -37,10 +38,10 @@ function App() {
           >
             <Switch>
               <Route path="/" exact component={HomePage} />
-              {isLogin && <Redirect from='/login' to="/UserCenter" />}
-              {!isLogin && <Redirect from='/UserCenter' to="/login" />}
-              <Route path="/UserCenter" exact component={UserCenter} />
+              {isLogin ? <Redirect from='/login' to="/UserCenter" /> : <Redirect from='/UserCenter' to="/login"/>}
+              <Route path="/UserCenter" component={UserCenter} />
               <Route path="/login" component={LoginPage}/>
+              <Route path="/blog" component={BlogPage} />
             </Switch>
           </Content>
         </Layout>

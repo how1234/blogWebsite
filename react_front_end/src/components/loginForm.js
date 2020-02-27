@@ -72,7 +72,11 @@ function LoginForm() {
           setErrorMessage('')
           console.log(resData);
           message.info('Log in successfully')
-          dispatch( {type:'LOGIN',payload:resData.data.login})
+
+ 
+            dispatch( {type:'LOGIN',payload:{...resData.data.login,checked}})
+          
+          
         })
         .catch(err => {
           console.log(err);
@@ -99,9 +103,9 @@ function LoginForm() {
       </Form.Item>
 
       <Form.Item>
-        {/* <Checkbox onChange={checkedRemember} checked={checked}>
+        <Checkbox onChange={checkedRemember} checked={checked}>
           Remember me
-        </Checkbox> */}
+        </Checkbox>
         <Button type="primary" htmlType="submit" className="login-form-button">
           Log in
         </Button>

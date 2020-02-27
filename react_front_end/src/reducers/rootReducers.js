@@ -1,10 +1,14 @@
-const initialState = JSON.parse(sessionStorage.getItem("userData")) ||
-  JSON.parse(localStorage.getItem("userData")) || {
+const blankObject = {
     token: null,
     userId: null,
     tokenExpiration: null,
     isLogin: false
   };
+
+
+const initialState = JSON.parse(localStorage.getItem("userData")) ||
+  JSON.parse(sessionStorage.getItem("userData")) || blankObject
+
 
 function rootReducer(state = initialState, action) {
   switch (action.type) {
@@ -24,13 +28,12 @@ function rootReducer(state = initialState, action) {
 
       console.log(loginState);
       return loginState;
-
     case "LOGOUT":
-      sessionStorage.setItem("userData", JSON.stringify(initialState));
-      localStorage.setItem("userData", JSON.stringify(initialState));
-      return initialState;
+      sessionStorage.setItem("userData", JSON.stringify({blankObject}));
+      localStorage.setItem("userData", JSON.stringify(blankObject));
+      return blankObject;
     default:
-      return state;
+      return initialState ;
   }
 }
 export default rootReducer;

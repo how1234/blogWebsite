@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import "./App.css";
 import { BrowserRouter, Switch, Route,Redirect } from "react-router-dom";
@@ -6,7 +6,7 @@ import "antd/dist/antd.css";
 import { Layout } from "antd";
 
 
-import {useSelector,useDispatch} from 'react-redux' 
+import {useSelector} from 'react-redux' 
 
 import SideNavs from "./components/sidersNav";
 import HomePage from "./pages/homePage";
@@ -14,12 +14,10 @@ import UserCenter from './pages/userCenter'
 import LoginPage from "./pages/loginPage";
 import BlogPage from "./pages/blogPage";
 
-const { Header, Content } = Layout;
+const {Content } = Layout;
 
 function App() {
-  // const disPatch  = useDispatch()
 
-  // disPatch({type:"INITIAL"})
   const isLogin = useSelector( (state) => state.isLogin)
   
   

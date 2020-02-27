@@ -1,9 +1,7 @@
-import React,{useState} from 'react'
-import { Layout,Modal,Button} from 'antd'
+import React from 'react'
+
 
 const BlogPage = () => {
-
-    
 
     
 

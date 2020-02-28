@@ -9,21 +9,33 @@ export const login_requestBody = (email, password) => {
             }
         }
     `
-  }
-}
+  };
+};
 
 export const createBlogPost_requestBody = (title, text) => {
-    console.log(title)
-    console.log(text)
-    return {
-      query: `
+  return {
+    query: `
           mutation {
-              createBlogPost(blogPostInput:{title:"${encodeURIComponent(title)}",text:"${encodeURIComponent(text)}"}){
+              createBlogPost(blogPostInput:{title:"${encodeURIComponent(
+                title
+              )}",text:"${encodeURIComponent(text)}"}){
                 title
               }
           }
       `
-    }
-  }
+  };
+};
 
-
+export const getAllBlogPosts_requestBody = () => {
+  return {
+    query: `
+          query {
+            blogPosts{
+                _id
+                title
+                text
+              }
+          }
+      `
+  };
+};

@@ -18,9 +18,9 @@ const {Content} = Layout;
 
 function App() {
 
-  const isLogin = useSelector( (state) => state.isLogin)
+  const isLogin = useSelector((state) => state.auth.isLogin)
   
-  
+  console.log(isLogin)
   return (
     <BrowserRouter>
       <Layout style={{ minHeight: "100vh" }}>

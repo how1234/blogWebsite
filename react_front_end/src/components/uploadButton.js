@@ -4,14 +4,15 @@ import { useSelector } from "react-redux";
 import { toBase64, fromBase64, fileToText } from "../helper/fileReader";
 import MarkdownArea from "./markdownArea";
 
-import { serialize, deserialize } from "bson";
-import { createBlogPost_requestBody } from "../helper/graphql_queries";
+
+
+import {uploadSingleBlogPost} from '../helper/requestMethods'
 
 const UploadButton = () => {
   const [fileList, setFileList] = useState([]);
   const [uploading, setUploading] = useState(false);
   const [test, setTest] = useState("hello");
-  const { userId, token } = useSelector(state => state);
+  const { userId, token } = useSelector(state => state.auth);
 
   const handleUpload = async () => {
     const sentFiles = [];
@@ -35,10 +36,11 @@ const UploadButton = () => {
 
     
       setUploading(true);
-      console.log(sentFiles)
+    
       for (let i=0;i<sentFiles.length; i++) {
         try {
-          await sendFile(sentFiles[i]);
+          await uploadSingleBlogPost(sentFiles[i],{token,userId});
+   
         } catch (error) {
           throw error;
         }
@@ -50,21 +52,6 @@ const UploadButton = () => {
     }
   };
 
-  const sendFile = async sentFile => {
-    fetch("http://localhost:8000/graphql", {
-      method: "POST",
-      body: JSON.stringify(createBlogPost_requestBody(sentFile.title, sentFile.fileTextData)),
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": token,
-        "userId": userId
-      }
-    })
-      .then(resolve => resolve)
-      .catch(err => {
-        message.error(err);
-      });
-  };
 
   const onRemove = file => {
     const index = fileList.indexOf(file);

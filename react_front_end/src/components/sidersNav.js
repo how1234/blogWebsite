@@ -13,7 +13,7 @@ function SidersNav() {
   const [key, setKey] = useState("1");
 
 
-  const isLogin = useSelector(state => state.isLogin)
+  const isLogin = useSelector(state => state.auth.isLogin)
   const dispatch = useDispatch()
 
   function hideSider() {

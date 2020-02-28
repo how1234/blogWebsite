@@ -42,8 +42,9 @@ const transfromBlogpost = blogPost => {
         ...blogPost._doc,
         _id:blogPost.id,
         date:dateToString(blogPost._doc.date),
-        author: singleUser.bind(this,blogPost._doc._author)
+        creator: singleUser.bind(this,blogPost._doc.creator)
     };
 }
 
 exports.transfromBlogpost = transfromBlogpost
+exports.singleUser = singleUser

@@ -2,17 +2,22 @@ const BlogPost = require('../../models/blogPost')
 
 const User = require('../../models/user')
 
-const {transfromBlogpost} = require('./merge')
+const {transfromBlogpost,singleUser} = require('./merge')
 module.exports = {
-    blogPosts: async () => {
+    blogPosts: async (_,req) => {
+     
         try{
+
             const blogPosts = await BlogPost.find();
+      
             return blogPosts.map(blogpost => {
                 return {
                     ...blogpost._doc,
                     _id: blogpost.id,
                     date:blogpost._doc.date,
-                    author:user.bind(this,blogpost._doc.author)
+                    title:blogpost._doc.title,
+                    text:blogpost._doc.text,
+                    creator:singleUser(blogpost._doc.creator)
                 }
             })
         }catch(err){
@@ -27,9 +32,6 @@ module.exports = {
     createBlogPost: async (input,req) => {
      
      
-     
-
-
      
       try{
         const blogPost = new BlogPost({

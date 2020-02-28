@@ -26,7 +26,6 @@ function rootReducer(state = initialState, action) {
         sessionStorage.setItem("userData", JSON.stringify(loginState));
       }
 
-      console.log(loginState);
       return loginState;
     case "LOGOUT":
       sessionStorage.setItem("userData", JSON.stringify({blankObject}));

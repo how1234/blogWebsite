@@ -5,7 +5,7 @@ module.exports = buildSchema(`
 type BlogPost {
     _id:ID!
     title:String!
-    description:String!
+    text:String!
     date:String!
     creator:User!
 }
@@ -25,7 +25,7 @@ type AuthData {
 
 input BlogPostInput {
     title:String!
-    description:String!
+    text:String!
 }
 
 

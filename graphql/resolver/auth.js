@@ -25,6 +25,7 @@ module.exports = {
     }
   },
   login: async ( {email,password},req) => {
+      
       const user = await User.findOne({email:email})
       if(!user) {
           throw new Error("User does not exist!")

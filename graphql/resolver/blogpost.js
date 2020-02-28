@@ -20,26 +20,32 @@ module.exports = {
         }
    
     },
-    createBlogPost: async (args,req) => {
-      if(!req.isAuth){
-        
-        throw new Error("Unauthentificated!")
-      }
-      console.log(req.isAuth)
-      const blogPost = new BlogPost({
-        title: args.blogPostInput.title,
-        description: args.blogPostInput.description,
-        date: new Date(),
-        author:req.userId
-      });
+    // title:String!
+    // text:String!
+    // date:String!
+    // creator:User!
+    createBlogPost: async (input,req) => {
+     
+     
      
 
+
+     
       try{
+        const blogPost = new BlogPost({
+          title: decodeURIComponent(input.blogPostInput.title),
+          text: decodeURIComponent(input.blogPostInput.text),
+          date: new Date(),
+          creator:req.get("userId")
+        });
+
         const result = await blogPost.save()
         let createdBlogPost = transfromBlogpost(result)
-        
-        const author = await User.findById(req.userId);
+      
 
+        const author = await User.findById(req.get("userId"));
+      
+        console.log(author)
         if(!author){
           throw new Error("User not found")
         }

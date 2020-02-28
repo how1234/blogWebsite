@@ -1,11 +1,11 @@
-import React, { useRef, useState} from "react";
-import { useDispatch } from 'react-redux'
-import { Form, Icon, Input, Button, Checkbox,Alert,message } from "antd";
-
+import React, { useRef, useState } from "react";
+import { useDispatch } from "react-redux";
+import { Form, Icon, Input, Button, Checkbox, Alert, message } from "antd";
+import {login_requestBody} from '../helper/graphql_queries'
 function LoginForm() {
   const [checked, setChecked] = useState(true);
-  const [errorMessage,setErrorMessage] = useState("")
-  const dispatch = useDispatch()
+  const [errorMessage, setErrorMessage] = useState("");
+  const dispatch = useDispatch();
 
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
@@ -15,73 +15,55 @@ function LoginForm() {
 
     const email = emailRef.current.state.value;
     const password = passwordRef.current.state.value;
-    if(email && password){
-        if (email.trim().length === 0 || password.trim().length === 0) {
-            return;
-        }
-        login(email,password)
-    }else{
-        setErrorMessage("Invalid input!")
+    if (email && password) {
+      if (email.trim().length === 0 || password.trim().length === 0) {
+        return;
+      }
+      login(email, password);
+    } else {
+      setErrorMessage("Invalid input!");
     }
-    
-    
-   
-    
   };
   const checkedRemember = e => {
     setChecked(e.target.checked);
   };
 
-  const login = (email,password) => {
-    let requestBody = {
-        query: `
-                  query{
-                      login(email:"${email}",password:"${password}"){
-                          userId,
-                          token,
-                          tokenExpiration
-                      }
-                  }
-              
-              `
-      };
-      
+  const login = (email, password) => {
+    let requestBody = login_requestBody(email,password)
     
-      fetch('http://localhost:8000/graphql', {
-        method: 'POST',
-        body: JSON.stringify(requestBody),
-        headers: {
-          "Content-Type": "application/json"
+    fetch("http://localhost:8000/graphql", {
+      method: "POST",
+      body: JSON.stringify(requestBody),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then(res => {
+        if (res.status.toString()[0] == 5) {
+          setErrorMessage("Invalid Email or Password");
+          throw new Error(res.status);
+        } else if (res.status.toString()[0] == 4) {
+          setErrorMessage("Connection fail");
+          throw new Error(res.status);
+        } else if (res.status !== 200 && res.status !== 201) {
+          setErrorMessage("ErrorCode: " + res.status);
+          throw new Error("Connection fail");
         }
+        return res.json();
       })
-        .then(res => {
-          if (res.status.toString()[0] == 5){
-            setErrorMessage("Invalid Email or Password")
-            throw new Error(res.status)
-          }else if (res.status.toString()[0] == 4){
+      .then(resData => {
+        setErrorMessage("");
+        console.log(resData);
+        message.info("Log in successfully");
 
-            setErrorMessage("Connection fail")
-            throw new Error(res.status)
-          }else if (res.status !== 200 && res.status !== 201) {
-            setErrorMessage("ErrorCode: " +  res.status )
-            throw new Error("Connection fail");
-          }
-          return res.json();
-        })
-        .then(resData => {
-          setErrorMessage('')
-          console.log(resData);
-          message.info('Log in successfully')
-
- 
-            dispatch( {type:'LOGIN',payload:{...resData.data.login,checked}})
-          
-          
-        })
-        .catch(err => {
-          console.log(err);
+        dispatch({
+          type: "LOGIN",
+          payload: { ...resData.data.login, checked }
         });
-
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
   return (
     <Form onSubmit={handleSubmit} className="login-form">

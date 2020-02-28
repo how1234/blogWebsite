@@ -14,7 +14,7 @@ import UserCenter from './pages/userCenter'
 import LoginPage from "./pages/loginPage";
 import BlogPage from "./pages/blogPage";
 
-const {Content } = Layout;
+const {Content} = Layout;
 
 function App() {
 

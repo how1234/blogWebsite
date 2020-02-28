@@ -1,3 +1,5 @@
+import {serialize,deserialize} from 'bson'
+
 export const toBase64 = file =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -21,15 +23,14 @@ export const fromBase64 = (dataurl, filename) => {
 };
 
 
-export const fromFile = file => new Promise((resolve,reject) =>{
-  var reader = new FileReader();
-        reader.readAsText(file);
+export const fileToText = file =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsText(file);
+    // reader.readAsArrayBuffer(file)
 
-    reader.onload = (e) =>{
-        var extractedTxt = e.target.result;
-        resolve( extractedTxt)
-    }
+    reader.onload = () => resolve(reader.result);
     reader.onerror = error => reject(error);
+  });
 
 
-})

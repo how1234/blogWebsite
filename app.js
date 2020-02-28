@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser")
 const graphQLMiddle = require("express-graphql");
 const mongoose = require("mongoose");
-
+const  cors = require('cors')
 
 const app = express();
 
@@ -13,25 +13,19 @@ const graphQLResolver = require('./graphql/resolver/index')
 const isAuth = require('./middleware/is-auth')
 
 
-const mongoURL = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0-8z33n.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`;
+const mongoURL = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0-8z33n.mongodb.net/bloggers_DB?retryWrites=true&w=majority`;
 
 app.use(bodyParser.json());
+
+
+app.use(cors())
+
 app.use(isAuth)
 
-app.use((req,res,next) => {
 
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST,GET,OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  console.log(req.body)
-  if (req.method === 'OPTIONS') {
-  
-    res.sendStatus(200);
-  }
-  next();
+app.use((req,res,next)=>{
+  next()
 })
-
-
 
 
 

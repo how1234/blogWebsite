@@ -7,7 +7,7 @@ const bloggerSchema = new Schema({
         type:String,
         required:true
     },
-    description:{
+    text:{
         type:String,
         required:true
     },
@@ -15,7 +15,7 @@ const bloggerSchema = new Schema({
         type:Date,
         required:true
     },
-    author:{
+    creator:{
         type:Schema.Types.ObjectId,
         ref:"User"
     }

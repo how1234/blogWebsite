@@ -1,40 +1,52 @@
-import React,{useEffect,useState} from 'react'
-import {useSelector,useDispatch} from 'react-redux'
+import React, { useEffect, useState, Fragment } from "react";
+import { useDispatch } from "react-redux";
 
-import {getAllBlogPosts} from "../helper/requestMethods" 
+import { getAllBlogPosts } from "../helper/requestMethods";
+import MarkdownArea from "../components/markdownArea";
 
+import { Link } from 'react-router-dom'
+
+
+import { Card } from "antd";
 
 const BlogPage = () => {
-    const [localBlogPostslist,setBlogPostslist] = useState([])
-    const blogPostsList = useSelector(state => state.blogPosts.dataList)
-    const dispatch = useDispatch()
- 
-    getAllBlogPosts().then( resolve => {console.log(resolve)})
+  const [dataList, setDataList] = useState([]);
 
-    const fetchPostsData = async() => {
-        try{
-            const data = await getAllBlogPosts()
-            dispatch({type:"UPLOAD_BLOGPOSTS",payload:data})
-            console.log(data)
-        }catch(err){
-            console.log(err)
-        }
-       
+  const dispatch = useDispatch();
+
+  const fetchPostsData = async () => {
+    try {
+      const data = await getAllBlogPosts();
+      dispatch({ type: "FETCH_BLOGPOSTS", payload: data.data.blogPosts });
+      setDataList(data.data.blogPosts);
+    } catch (err) {
+      console.log(err);
     }
-    fetchPostsData()
-   
+  };
 
-    
-    useEffect(() => {
-        console.log(blogPostsList)
-        return () => {
-        };
-    }, [localBlogPostslist])
-    return(
-        <div>
-            Blog page
-        </div>
-    )
-}
+  useEffect(() => {
+    fetchPostsData();
+  }, []);
 
-export default BlogPage
+
+  // if(blogPostsList.length > 1) {console.log(blogPostsList[0].text)}
+
+  return (
+    <div>
+      {dataList.length > 1 &&
+        dataList.map( (item,index) => {
+          console.log(item);
+          return (
+            <Card title={item.title} key={index}>
+              <Link to={"/posts/" + item._id}>{item.title}</Link>
+              {/* <MarkdownArea input={item.text} /> */}
+            </Card>
+          );
+        })}
+
+     
+    </div>
+  );
+};
+
+export default BlogPage;

@@ -13,6 +13,7 @@ import HomePage from "./pages/homePage";
 import UserCenter from './pages/userCenter'
 import LoginPage from "./pages/loginPage";
 import BlogPage from "./pages/blogPage";
+import BlogPostPage from "./pages/blogPostPage";
 
 const {Content} = Layout;
 
@@ -40,6 +41,7 @@ function App() {
               <Route path="/UserCenter" component={UserCenter} />
               <Route path="/login" component={LoginPage}/>
               <Route path="/blog" component={BlogPage} />
+              <Route path="/posts/:id" component={BlogPostPage} />
             </Switch>
           </Content>
         </Layout>

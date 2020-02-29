@@ -29,7 +29,7 @@ export const getAllBlogPosts = async() => {
       .then(res => {
         return res.json()
       }).then(resData => {
-        console.log(resData)
+     
         return resData
       })
       .catch(err => {

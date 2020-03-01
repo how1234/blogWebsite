@@ -42,12 +42,13 @@ function App() {
           >
             <Switch>
               <Route path="/" exact component={HomePage} />
-              {isLogin ? <Redirect from='/login' to="/UserCenter" /> : <Redirect from='/UserCenter' to="/login"/>}
-              <Route path="/UserCenter" component={UserCenter} />
+              {isLogin ? <Redirect from='/login' to="/adminCenter" /> : <Redirect from='/adminCenter' to="/login"/>}
+              <Route path="/adminCenter" component={UserCenter} />
               <Route path="/login" component={LoginPage}/>
               <Route path="/blog" component={BlogPage} />
               <Route path="/posts/:id" component={BlogPostPage} />
               <Route path="/404" component={errorPage} />
+              <Redirect from="*" to='404'/>
             </Switch>
           </Content>
         </Layout>

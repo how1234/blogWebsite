@@ -81,9 +81,9 @@ function SidersNav() {
           </Link>
         </Menu.Item>
         <Menu.Item key="2">
-          <Link to="/userCenter">
+          <Link to="/adminCenter">
             <Icon type="user" />
-            <span>User Center</span>
+            <span>Administrator Center</span>
           </Link>
         </Menu.Item>
 

@@ -5,7 +5,6 @@ import { useHistory,useParams } from 'react-router-dom'
 
 import {getOneBlogPost} from '../helper/requestMethods'
 
-import { Redirect} from 'react-router-dom'
 export const BlogPostPage = () => {
     const history = useHistory()
     const [postText,setPostText] = useState('')

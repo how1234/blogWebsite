@@ -1,5 +1,5 @@
 import React, { useEffect, useState, Fragment } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 
 import { getAllBlogPosts } from "../helper/requestMethods";
 import MarkdownArea from "../components/markdownArea";
@@ -10,21 +10,27 @@ import { Card } from "antd";
 
 const BlogPage = () => {
   const [dataList, setDataList] = useState([]);
+  const existedList = useSelector(state => state.blogPosts.dataList)
 
   const dispatch = useDispatch();
 
   const fetchPostsData = async () => {
     try {
-      const data = await getAllBlogPosts();
-      dispatch({ type: "FETCH_BLOGPOSTS", payload: data.data.blogPosts });
-      setDataList(data.data.blogPosts);
+      const serverData = await getAllBlogPosts();
+      dispatch({ type: "FETCH_BLOGPOSTS", payload: serverData.data.blogPosts });
+      setDataList(serverData.data.blogPosts);
     } catch (err) {
       console.log(err);
     }
   };
 
   useEffect(() => {
-    fetchPostsData();
+      if(existedList && existedList.length){
+        setDataList(existedList)
+      }else{
+        fetchPostsData();
+      }
+       
   }, []);
 
   return (

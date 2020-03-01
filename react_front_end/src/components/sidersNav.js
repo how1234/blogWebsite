@@ -2,14 +2,15 @@ import React, { useState } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 
-import { Link } from "react-router-dom";
+import { Link,useHistory } from "react-router-dom";
 import "antd/dist/antd.css";
 import { Layout, Menu, Icon, message } from "antd";
 
 const { Sider } = Layout;
 function SidersNav() {
-  const selectedKey = useSelector(state => 
-    {return state.pageData.selectedKey});
+    
+    const history = useHistory()
+  const selectedKey = useSelector(state =>  state.pageData.selectedKey);
 
   const collapsed = useSelector(state => state.pageData.collapsed);
 
@@ -33,6 +34,7 @@ function SidersNav() {
         type: "UPDATE_PAGE_DATA",
         payload: { selectedKey: "1", collapsed: collapsed }
       });;
+      history.push('/')
       return;
     }
 

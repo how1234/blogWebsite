@@ -1,12 +1,9 @@
-import React, { useState } from "react";
-import { Upload, Button, Icon, message } from "antd";
+import React, { useState, Fragment } from "react";
+import { Upload, Button, Icon, message, Row, Col } from "antd";
 import { useSelector } from "react-redux";
 import { toBase64, fromBase64, fileToText } from "../helper/fileReader";
-import MarkdownArea from "./markdownArea";
 
-
-
-import {uploadSingleBlogPost} from '../helper/requestMethods'
+import { uploadSingleBlogPost } from "../helper/requestMethods";
 
 const UploadButton = () => {
   const [fileList, setFileList] = useState([]);
@@ -27,20 +24,17 @@ const UploadButton = () => {
 
       // const textFile = await fromFile(aFile)
 
-
       for (let file of fileList) {
         let fileTextData = await fileToText(file);
         let title = file.name;
         sentFiles.push({ fileTextData, title });
       }
 
-    
       setUploading(true);
-    
-      for (let i=0;i<sentFiles.length; i++) {
+
+      for (let i = 0; i < sentFiles.length; i++) {
         try {
-          await uploadSingleBlogPost(sentFiles[i],{token,userId});
-   
+          await uploadSingleBlogPost(sentFiles[i], { token, userId });
         } catch (error) {
           throw error;
         }
@@ -51,7 +45,6 @@ const UploadButton = () => {
       throw err;
     }
   };
-
 
   const onRemove = file => {
     const index = fileList.indexOf(file);
@@ -72,24 +65,28 @@ const UploadButton = () => {
     fileList
   };
   return (
-    <div>
-      <Upload {...uploadProps}>
-        <Button>
-          <Icon type="upload" /> Upload
-        </Button>
-      </Upload>
-      <Button
-        type="primary"
-        onClick={handleUpload}
-        disabled={fileList.length === 0}
-        loading={uploading}
-        style={{ marginTop: 16 }}
-      >
-        {uploading ? "Uploading" : "Start Upload"}
-      </Button>
+    <Fragment>
+      <Col span={6}>
+        <Upload {...uploadProps}>
+          <Button
+           className="upload_file_btn">
+            <Icon type="upload" /> Upload
+          </Button>
+        </Upload>
+      </Col>
 
-      <MarkdownArea input={test}></MarkdownArea>
-    </div>
+      <Col span={6}>
+        <Button
+          className="trigger_upload_btn"
+          type="primary"
+          onClick={handleUpload}
+          disabled={fileList.length === 0}
+          loading={uploading}
+        >
+          {uploading ? "Uploading" : "Start Upload"}
+        </Button>
+      </Col>
+    </Fragment>
   );
 };
 

@@ -10,8 +10,7 @@ const initialObj = {selectedKey:"1",
 
 const storedData = JSON.parse(sessionStorage.getItem('pageData'))
 
-console.log(storedData["selectedKey"])
-let initialState = storedData["selectedKey"]? storedData: initialObj
+let initialState = storedData && Object.keys(storedData).length ? storedData: initialObj
 
 
 //Session Storage only works with String

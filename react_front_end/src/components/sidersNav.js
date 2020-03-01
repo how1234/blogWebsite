@@ -1,50 +1,59 @@
 import React, { useState } from "react";
 
-import {useSelector,useDispatch} from 'react-redux'
+import { useSelector, useDispatch } from "react-redux";
 
 import { Link } from "react-router-dom";
 import "antd/dist/antd.css";
-import { Layout, Menu, Icon,message } from "antd";
+import { Layout, Menu, Icon, message } from "antd";
 
 const { Sider } = Layout;
-//SessionStore solves the refresh problem.
 function SidersNav() {
-  const [collapsed, setCollapsed] = useState(false);
-  const [key, setKey] = useState("1");
+  const selectedKey = useSelector(state => 
+    {return state.pageData.selectedKey});
+
+  const collapsed = useSelector(state => state.pageData.collapsed);
 
 
-  const isLogin = useSelector(state => state.auth.isLogin)
-  const dispatch = useDispatch()
+  const isLogin = useSelector(state => state.auth.isLogin);
+
+  const dispatch = useDispatch();
 
   function hideSider() {
-    setCollapsed(!collapsed);
+    dispatch({
+      type: "UPDATE_PAGE_DATA",
+      payload: { selectedKey: selectedKey, collapsed: !collapsed }
+    });
   }
 
   function handleClick(item) {
-    const clickedKey = item.key
-    console.log(clickedKey)
-    if(clickedKey === "4"){
-        
-        logout()
-        return 
+    const clickedKey = item.key;
+    if (clickedKey === "4") {
+      logout();
+      dispatch({
+        type: "UPDATE_PAGE_DATA",
+        payload: { selectedKey: "1", collapsed: collapsed }
+      });;
+      return;
     }
-    
-    if (clickedKey!== key) {
-      setKey(clickedKey);
+
+    if (clickedKey !== selectedKey) {
+        dispatch({
+            type: "UPDATE_PAGE_DATA",
+            payload: { selectedKey: clickedKey, collapsed: collapsed }
+          });;
     } else {
       return;
     }
   }
-  function logout(){
-    message.info('Log out successfully')
-    dispatch({type:"LOGOUT"})
+  function logout() {
+    message.info("Log out successfully");
+    dispatch({ type: "LOGOUT" });
   }
   return (
     <Sider
-    theme="light"
+      theme="light"
       collapsible
       collapsed={collapsed}
-      
       trigger={
         !collapsed ? (
           <div onClick={hideSider}>
@@ -58,7 +67,13 @@ function SidersNav() {
       }
     >
       <div className="logo" />
-      <Menu  mode="inline" selectedKeys={key} onSelect={(item)=>{handleClick(item)}}>
+      <Menu
+        mode="inline"
+        selectedKeys={selectedKey}
+        onSelect={item => {
+          handleClick(item);
+        }}
+      >
         <Menu.Item key="1">
           <Link to="/">
             <Icon type="home" />
@@ -73,24 +88,18 @@ function SidersNav() {
         </Menu.Item>
 
         <Menu.Item key="3">
-        <Link to="/blog">
+          <Link to="/blog">
             <Icon type="form" />
             <span>Blog</span>
           </Link>
         </Menu.Item>
-        {
-            isLogin &&
-            <Menu.Item key="4" >
+        {isLogin && (
+          <Menu.Item key="4">
             <Icon type="form" />
             <span>Log out</span>
           </Menu.Item>
-         
-        }
-      
-        
+        )}
       </Menu>
-         
-    
     </Sider>
   );
 }

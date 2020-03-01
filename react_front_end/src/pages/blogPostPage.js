@@ -1,29 +1,47 @@
-import React,{useEffect} from 'react'
+import React,{useEffect,useState, Fragment} from 'react'
 import ReactMarkdown from 'react-markdown'
+import {Spin,Layout} from 'antd'
+import { useHistory,useParams } from 'react-router-dom'
 
-import { useLocation,useParams } from 'react-router-dom'
+import {getOneBlogPost} from '../helper/requestMethods'
 
-import {useSelector} from 'react-redux'
-
-export const BlogPostPage = (props) => {
-  
-    const dataList = useSelector(state => state.blogPosts.dataList)
+import { Redirect} from 'react-router-dom'
+export const BlogPostPage = () => {
+    const history = useHistory()
+    const [postText,setPostText] = useState('')
+    const [loaded,setLoaded] = useState(false)
     const post_id = useParams().id
-    let text;
-    
-    const data = dataList.filter(e => (e._id===post_id))[0]
-    text = data.text
-    
 
-    
-    console.log(text)
-    
+    const fetchData = async () => {
+        try{
+            const blogPostData = await getOneBlogPost(post_id)
+            if(blogPostData) {
+                setPostText(blogPostData.text)
+            }else{
+               history.push('/404')
+            }
+            
+        }catch(err){
+            throw err
+        }
+    }
+
+
+   
+    useEffect( ()=>{
+        fetchData()
+    },[])
+      
     return(
+        <Fragment>
+
         
-        
+            {loaded ?  (<Spin style={{display:"block",margin:"auto"}}/>  ): (<ReactMarkdown source={postText} />)}
+       
+       </Fragment>
         
     
-        <ReactMarkdown source={text}></ReactMarkdown>
+        
     )
 }
 

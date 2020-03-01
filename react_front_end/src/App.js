@@ -8,19 +8,24 @@ import { Layout } from "antd";
 
 import {useSelector} from 'react-redux' 
 
+
+
+
 import SideNavs from "./components/sidersNav";
 import HomePage from "./pages/homePage";
 import UserCenter from './pages/userCenter'
 import LoginPage from "./pages/loginPage";
 import BlogPage from "./pages/blogPage";
 import BlogPostPage from "./pages/blogPostPage";
+import errorPage from "./pages/errorPage";
+
 
 const {Content} = Layout;
 
 function App() {
 
   const isLogin = useSelector((state) => state.auth.isLogin)
-  
+
   console.log(isLogin)
   return (
     <BrowserRouter>
@@ -42,6 +47,7 @@ function App() {
               <Route path="/login" component={LoginPage}/>
               <Route path="/blog" component={BlogPage} />
               <Route path="/posts/:id" component={BlogPostPage} />
+              <Route path="/404" component={errorPage} />
             </Switch>
           </Content>
         </Layout>

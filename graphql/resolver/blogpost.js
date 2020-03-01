@@ -7,16 +7,12 @@ module.exports = {
     blogPosts: async (_,req) => {
      
         try{
-
             const blogPosts = await BlogPost.find();
-      
             return blogPosts.map(blogpost => {
                 return {
-                    ...blogpost._doc,
                     _id: blogpost.id,
                     date:blogpost._doc.date,
                     title:blogpost._doc.title,
-                    text:blogpost._doc.text,
                     creator:singleUser(blogpost._doc.creator)
                 }
             })
@@ -24,6 +20,20 @@ module.exports = {
             throw err
         }
    
+    }, 
+    getBlogPost: async(input,req) => {
+      try{
+        
+        const result = await BlogPost.findById(input._id);
+        console.log({
+          ...result._doc
+        })
+        return{
+          ...result._doc
+        }
+      }catch(err){
+        throw err
+      }
     },
     // title:String!
     // text:String!

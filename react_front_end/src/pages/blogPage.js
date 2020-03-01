@@ -4,8 +4,7 @@ import { useDispatch } from "react-redux";
 import { getAllBlogPosts } from "../helper/requestMethods";
 import MarkdownArea from "../components/markdownArea";
 
-import { Link } from 'react-router-dom'
-
+import { Link } from "react-router-dom";
 
 import { Card } from "antd";
 
@@ -28,14 +27,11 @@ const BlogPage = () => {
     fetchPostsData();
   }, []);
 
-
-  // if(blogPostsList.length > 1) {console.log(blogPostsList[0].text)}
-
   return (
     <div>
       {dataList.length > 1 &&
-        dataList.map( (item,index) => {
-          console.log(item);
+        dataList.map((item, index) => {
+          
           return (
             <Card title={item.title} key={index}>
               <Link to={"/posts/" + item._id}>{item.title}</Link>
@@ -43,8 +39,6 @@ const BlogPage = () => {
             </Card>
           );
         })}
-
-     
     </div>
   );
 };

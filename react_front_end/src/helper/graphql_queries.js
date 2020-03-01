@@ -33,9 +33,23 @@ export const getAllBlogPosts_requestBody = () => {
             blogPosts{
                 _id
                 title
-                text
               }
           }
       `
   };
 };
+
+
+export const getBlogPost_requestBody = (id) => {
+    return {
+      query: `
+            query {
+              getBlogPost(_id:"${id}"){
+                  title
+                  text
+                }
+            }
+        `
+    };
+  };
+  

@@ -36,6 +36,7 @@ input UserInput{
 
 type RootQuery{
     blogPosts:[BlogPost!]!
+    getBlogPost(_id:ID):BlogPost
     login(email: String!, password: String!): AuthData!
 }
 

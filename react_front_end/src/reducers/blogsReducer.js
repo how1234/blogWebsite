@@ -3,10 +3,10 @@
 const blogPosts = (state={},action) => {
 
     switch(action.type){
-        case "FETCH_BLOGPOSTS":
-            state = {dataList:action.payload}
-            return state
+        case "RELOAD_BLOGPOSTS":
             
+            state = {...state,dataList:action.payload}
+            return state
         default:
             return state;
     }

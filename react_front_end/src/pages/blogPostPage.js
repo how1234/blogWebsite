@@ -3,7 +3,7 @@ import ReactMarkdown from 'react-markdown'
 import {Spin,Layout} from 'antd'
 import { useHistory,useParams } from 'react-router-dom'
 
-import {getOneBlogPost} from '../helper/requestMethods'
+import {getABlogPost} from '../helper/requestMethods'
 
 export const BlogPostPage = () => {
     const history = useHistory()
@@ -13,7 +13,7 @@ export const BlogPostPage = () => {
 
     const fetchData = async () => {
         try{
-            const blogPostData = await getOneBlogPost(post_id)
+            const blogPostData = await getABlogPost(post_id)
             if(blogPostData) {
                 setPostText(blogPostData.text)
             }else{

@@ -1,7 +1,8 @@
 import {
   createBlogPost_requestBody,
   getAllBlogPosts_requestBody,
-  getBlogPost_requestBody
+  getBlogPost_requestBody,
+  removeBlogPost_requestBody
 } from "./graphql_queries";
 
 export const uploadSingleBlogPost = async (blogPost, userData) => {
@@ -41,7 +42,7 @@ export const getAllBlogPosts = async () => {
     });
 };
 
-export const getOneBlogPost = async id => {
+export const getABlogPost = async id => {
   return await fetch("http://localhost:8000/graphql", {
     method: "POST",
     body: JSON.stringify(getBlogPost_requestBody(id)),
@@ -55,6 +56,28 @@ export const getOneBlogPost = async id => {
     })
     .then(resData => {
       return resData.data.getBlogPost;
+    })
+    .catch(err => {
+      return err
+    });
+};
+
+
+export const removeABlogPost = async (id,userData) => {
+  return await fetch("http://localhost:8000/graphql", {
+    method: "POST",
+    body: JSON.stringify(removeBlogPost_requestBody(id)),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: userData.token,
+      userId: userData.userId
+    }
+  })
+    .then(res => {
+      return res.json();
+    })
+    .then(resData => {
+      return JSON.parse(resData.data).deletedCount;
     })
     .catch(err => {
       return err

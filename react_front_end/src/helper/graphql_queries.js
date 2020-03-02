@@ -39,10 +39,9 @@ export const getAllBlogPosts_requestBody = () => {
   };
 };
 
-
-export const getBlogPost_requestBody = (id) => {
-    return {
-      query: `
+export const getBlogPost_requestBody = id => {
+  return {
+    query: `
             query {
               getBlogPost(_id:"${id}"){
                   title
@@ -50,6 +49,15 @@ export const getBlogPost_requestBody = (id) => {
                 }
             }
         `
-    };
   };
-  
+};
+
+export const removeBlogPost_requestBody = id => {
+  return {
+    query: `
+         query{
+            removeBlogPost(_id:"${id}")
+          }
+         `
+  };
+};

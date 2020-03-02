@@ -1,29 +1,20 @@
 import React, { useState, Fragment } from "react";
 import { Upload, Button, Icon, message, Row, Col } from "antd";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 import { toBase64, fromBase64, fileToText } from "../helper/fileReader";
 
-import { uploadSingleBlogPost } from "../helper/requestMethods";
+import { uploadSingleBlogPost,getAllBlogPosts } from "../helper/requestMethods";
 
 const UploadButton = () => {
   const [fileList, setFileList] = useState([]);
   const [uploading, setUploading] = useState(false);
-  const [test, setTest] = useState("hello");
   const { userId, token } = useSelector(state => state.auth);
+  const dispatch = useDispatch()
 
   const handleUpload = async () => {
     const sentFiles = [];
 
     try {
-      // for (let file of fileList) {
-      //     const based64File = await toBase64(file)
-      //     const fileObject = {fileData:based64File,fileName:file.name}
-      //     sentFiles.push(fileObject)
-      // }
-      // let aFile = fromBase64(sentFiles[0].fileData,sentFiles[0].fileName)
-
-      // const textFile = await fromFile(aFile)
-
       for (let file of fileList) {
         let fileTextData = await fileToText(file);
         let title = file.name;
@@ -34,7 +25,13 @@ const UploadButton = () => {
 
       for (let i = 0; i < sentFiles.length; i++) {
         try {
-          await uploadSingleBlogPost(sentFiles[i], { token, userId });
+          const result = await uploadSingleBlogPost(sentFiles[i], { token, userId });
+          const serverData = await getAllBlogPosts();
+          dispatch({
+            type: "RELOAD_BLOGPOSTS",
+            payload: serverData.data.blogPosts
+          });
+          console.log(result)
         } catch (error) {
           throw error;
         }

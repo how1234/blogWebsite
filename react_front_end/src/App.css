@@ -1,0 +1,7 @@
+.markdown_div{
+  max-width:100%;
+  
+ 
+  overflow: auto;
+  border: 1px solid #111111
+}

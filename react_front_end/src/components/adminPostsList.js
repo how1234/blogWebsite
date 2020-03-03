@@ -67,7 +67,7 @@ export const AdminPostsList = props => {
         itemLayout="horizontal"
         dataSource={dataList}
         renderItem={item => (
-          <List.Item title="123" actions={<Button>edit</Button>}>
+          <List.Item actions={<Button>edit</Button>}>
             <List.Item.Meta title={item.title} />
 
             <Link to={"/adminCenter/editPosts/" + item._id}>

@@ -8,13 +8,19 @@ type BlogPost {
     text:String!
     date:String!
     creator:User!
+    tags:[Tag!]
 }
 
 type User{
     _id:ID!
     email:String!
-    password:String
+    password:String!
     createdBlogPosts:[BlogPost!]
+}
+
+type Tag{
+    _id:ID!
+    name:String!
 }
 
 type AuthData {
@@ -34,9 +40,11 @@ input UserInput{
     password:String!
 }
 
+
 type RootQuery{
     blogPosts:[BlogPost!]!
     getBlogPost(_id:ID):BlogPost
+    getAllTags:[Tag!]
     removeBlogPost(_id:ID):String!
     login(email: String!, password: String!): AuthData!
 }
@@ -44,7 +52,8 @@ type RootQuery{
 
 type RootMutation{
     createBlogPost(blogPostInput:BlogPostInput): BlogPost,
-    createUser(userInput:UserInput):User
+    createUser(userInput:UserInput):User,
+    createTag(name:String):Tag
 }
 
 schema{

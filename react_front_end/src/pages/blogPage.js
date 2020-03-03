@@ -6,7 +6,7 @@ import MarkdownArea from "../components/markdownArea";
 
 import { Link } from "react-router-dom";
 
-import { Card } from "antd";
+import { Card,Row } from "antd";
 
 const BlogPage = () => {
   const dataList = useSelector(state => state.blogPosts.dataList);
@@ -37,9 +37,11 @@ const BlogPage = () => {
       ) : (
         dataList.map((item, index) => {
           return (
-            <Card title={item.title} key={index}>
+              <Row type="flex" justify="center">
+            <Card title={item.title} style={{width:"50%"}} key={index}>
               <Link to={"/posts/" + item._id}>{item.title}</Link>
             </Card>
+            </Row>
           );
         })
       )}

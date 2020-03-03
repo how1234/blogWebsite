@@ -2,11 +2,13 @@ import {
   createBlogPost_requestBody,
   getAllBlogPosts_requestBody,
   getBlogPost_requestBody,
-  removeBlogPost_requestBody
+  removeBlogPost_requestBody,
+  getAllTags_requestBody,
+  createNewTag_requestBody 
 } from "./graphql_queries";
 
 export const uploadSingleBlogPost = async (blogPost, userData) => {
-  fetch("http://localhost:8000/graphql", {
+  return await fetch("http://localhost:8000/graphql", {
     method: "POST",
     body: JSON.stringify(
       createBlogPost_requestBody(blogPost.title, blogPost.fileTextData)
@@ -17,7 +19,12 @@ export const uploadSingleBlogPost = async (blogPost, userData) => {
       userId: userData.userId
     }
   })
-    .then(resolve => resolve)
+    .then(res => {
+      return res.json();
+    })
+    .then(resData => {
+      return resData;
+    })
     .catch(err => {
       throw err;
     });
@@ -51,14 +58,13 @@ export const getABlogPost = async id => {
     }
   })
     .then(res => {
-      
       return res.json();
     })
     .then(resData => {
       return resData.data.getBlogPost;
     })
     .catch(err => {
-      return err
+      throw err
     });
 };
 
@@ -80,6 +86,49 @@ export const removeABlogPost = async (id,userData) => {
       return JSON.parse(resData.data).deletedCount;
     })
     .catch(err => {
-      return err
+      throw err
     });
+};
+
+export const getAllTags = async() => {
+  return await fetch("http://localhost:8000/graphql", {
+    method: "POST",
+    body: JSON.stringify(getAllTags_requestBody()),
+    headers: {
+      "Content-Type": "application/json",
+    }
+  })
+    .then(res => {
+    
+   
+      return res.json();
+    })
+    .then(resData => {
+      return resData
+    })
+    .catch(err => {
+      throw err
+    });
+}
+
+export const createNewTag = async (name, userData) => {
+  return await fetch("http://localhost:8000/graphql", {
+    method: "POST",
+    body: JSON.stringify(
+      createNewTag_requestBody(name)
+    ),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: userData.token,
+      userId: userData.userId
+    }
+  }).then(res => {
+    return res.json();
+  })
+  .then(resData => {
+    return resData
+  })
+  .catch(err => {
+    throw err
+  });
 };

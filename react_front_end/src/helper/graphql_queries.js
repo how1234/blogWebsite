@@ -61,3 +61,27 @@ export const removeBlogPost_requestBody = id => {
          `
   };
 };
+
+export const getAllTags_requestBody = () => {
+  return {
+    query: `
+           query{
+              getAllTags{
+                  name
+              }
+            }
+           `
+  };
+};
+
+export const createNewTag_requestBody = name => {
+  return {
+    query: `
+           mutation{
+            createTag(name:"${name}"){
+                name
+              }
+            }
+           `
+  };
+};

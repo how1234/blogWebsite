@@ -1,9 +1,11 @@
 const authResolver = require('./auth');
 const blogPostsResolver = require('./blogpost');
+const tagResolver = require('./tag')
 
 
 const rootResolver = {
     ...authResolver,
-    ...blogPostsResolver 
+    ...blogPostsResolver,
+    ...tagResolver
 }
 module.exports = rootResolver

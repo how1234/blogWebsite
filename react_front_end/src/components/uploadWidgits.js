@@ -35,7 +35,7 @@ const UploadWidgits = () => {
     let runAsync = async () => {
       try {
         if (!isCancelled) {
-          fetchTags(dispatch);
+          await fetchTags(dispatch);
         }
       } catch (err) {
         if (!isCancelled) {
@@ -47,7 +47,6 @@ const UploadWidgits = () => {
     runAsync();
 
     return () => {
-      runAsync = null
       isCancelled = true;
     };
   }, []);

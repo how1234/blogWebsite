@@ -12,13 +12,13 @@ export const login_requestBody = (email, password) => {
   };
 };
 
-export const createBlogPost_requestBody = (title, text) => {
+export const createBlogPost_requestBody = (title, text,selectedTags) => {
   return {
     query: `
           mutation {
               createBlogPost(blogPostInput:{title:"${encodeURIComponent(
                 title
-              )}",text:"${encodeURIComponent(text)}"}){
+              )}",text:"${encodeURIComponent(text)}",tags:${JSON.stringify(selectedTags)}}){
                 title
               }
           }
@@ -33,6 +33,7 @@ export const getAllBlogPosts_requestBody = () => {
             blogPosts{
                 _id
                 title
+                tags
               }
           }
       `

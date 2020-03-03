@@ -10,6 +10,7 @@ module.exports = {
       throw err;
     }
   },
+  
   createTag: async (input, req) => {
     const newTagName = input.name.trim();
     try {

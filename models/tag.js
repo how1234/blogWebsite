@@ -6,7 +6,13 @@ const tagSchema = new Schema({
     name:{
         type:String,
         require:true
-    }
+    },
+    relatedBlogPosts:[
+        {
+            type:Schema.Types.ObjectId,
+            ref:"BlogPost"
+        }
+    ]
 })
 
 module.exports = mongoose.model('Tag',tagSchema)

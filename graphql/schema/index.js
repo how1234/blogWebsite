@@ -8,7 +8,7 @@ type BlogPost {
     text:String!
     date:String!
     creator:User!
-    tags:[Tag!]
+    tags:[String!]
 }
 
 type User{
@@ -21,6 +21,7 @@ type User{
 type Tag{
     _id:ID!
     name:String!
+    relatedBlogPosts:[BlogPost]!
 }
 
 type AuthData {
@@ -32,6 +33,7 @@ type AuthData {
 input BlogPostInput {
     title:String!
     text:String!
+    tags:[String!]!
 }
 
 

@@ -3,11 +3,11 @@ import { List, Button, Modal, message } from "antd";
 
 import { useSelector, useDispatch } from "react-redux";
 
-import { getAllBlogPosts } from "../helper/requestMethods";
+import { fetchPostsData } from "../helper/CommonMethodsInClient";
 
 import { useHistory, Link } from "react-router-dom";
 
-import { removeABlogPost } from "../helper/requestMethods";
+import { removeABlogPost } from "../helper/requestMethodsToServer";
 
 export const AdminPostsList = props => {
   const history = useHistory();
@@ -20,20 +20,13 @@ export const AdminPostsList = props => {
 
   const dispatch = useDispatch();
 
-  const fetchPostsData = async () => {
-    try {
-      const serverData = await getAllBlogPosts();
-      dispatch({
-        type: "RELOAD_BLOGPOSTS",
-        payload: serverData.data.blogPosts
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   useEffect(() => {
-    fetchPostsData();
+    const abortController = new AbortController();
+   
+    
+    fetchPostsData(dispatch);
+    
+    return () =>{abortController.abort()}
   }, []);
 
   const removeBlogPost = id => {
@@ -42,7 +35,7 @@ export const AdminPostsList = props => {
   };
   const handleOK = async () => {
     try {
-      const result = await removeABlogPost(removedPostId,{ token, userId });
+      const result = await removeABlogPost(removedPostId, { token, userId });
       if (result) {
         message.info("Success");
       } else {
@@ -53,13 +46,13 @@ export const AdminPostsList = props => {
     }
 
     setModalVisible(false);
-    fetchPostsData();
+    fetchPostsData(dispatch);
   };
   const handleCancel = () => {
     setRemovedPostId("");
     setModalVisible(false);
   };
-
+  console.log(dataList);
   return (
     <div style={{ width: "100%" }}>
       <List
@@ -69,7 +62,7 @@ export const AdminPostsList = props => {
         renderItem={item => (
           <List.Item actions={<Button>edit</Button>}>
             <List.Item.Meta title={item.title} />
-
+            <List.Item.Meta title={item.tags.join(",")} />
             <Link to={"/adminCenter/editPosts/" + item._id}>
               <Button type="primary">Edit</Button>
             </Link>

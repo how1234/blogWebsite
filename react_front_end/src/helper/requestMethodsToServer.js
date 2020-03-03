@@ -1,17 +1,51 @@
 import {
+  login_requestBody,
   createBlogPost_requestBody,
   getAllBlogPosts_requestBody,
   getBlogPost_requestBody,
   removeBlogPost_requestBody,
   getAllTags_requestBody,
-  createNewTag_requestBody 
+  createNewTag_requestBody
 } from "./graphql_queries";
 
-export const uploadSingleBlogPost = async (blogPost, userData) => {
+export const loginAsAdmin = async (email, password) => {
+  return await fetch("http://localhost:8000/graphql", {
+    method: "POST",
+    body: JSON.stringify(login_requestBody(email, password)),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+    .then(res => {
+      if (res.status.toString()[0] == 5) {
+        return new Error("500 Internal Server Error");
+      } else if (res.status.toString()[0] == 4) {
+        return new Error(res.status);
+      } else if (res.status !== 200 && res.status !== 201) {
+        return new Error("Connection fail");
+      }
+      return res.json();
+    })
+    .then(resData => {
+      return resData;
+    })
+    .catch(err => {
+      throw err
+    });
+};
+export const uploadSingleBlogPost = async (
+  blogPost,
+  userData,
+  selectedTags
+) => {
   return await fetch("http://localhost:8000/graphql", {
     method: "POST",
     body: JSON.stringify(
-      createBlogPost_requestBody(blogPost.title, blogPost.fileTextData)
+      createBlogPost_requestBody(
+        blogPost.title,
+        blogPost.fileTextData,
+        selectedTags
+      )
     ),
     headers: {
       "Content-Type": "application/json",
@@ -64,12 +98,11 @@ export const getABlogPost = async id => {
       return resData.data.getBlogPost;
     })
     .catch(err => {
-      throw err
+      throw err;
     });
 };
 
-
-export const removeABlogPost = async (id,userData) => {
+export const removeABlogPost = async (id, userData) => {
   return await fetch("http://localhost:8000/graphql", {
     method: "POST",
     body: JSON.stringify(removeBlogPost_requestBody(id)),
@@ -83,52 +116,49 @@ export const removeABlogPost = async (id,userData) => {
       return res.json();
     })
     .then(resData => {
-      return JSON.parse(resData.data).deletedCount;
+      return resData;
     })
     .catch(err => {
-      throw err
+      throw err;
     });
 };
 
-export const getAllTags = async() => {
+export const getAllTags = async () => {
   return await fetch("http://localhost:8000/graphql", {
     method: "POST",
     body: JSON.stringify(getAllTags_requestBody()),
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/json"
     }
   })
     .then(res => {
-    
-   
       return res.json();
     })
     .then(resData => {
-      return resData
+      return resData;
     })
     .catch(err => {
-      throw err
+      throw err;
     });
-}
+};
 
 export const createNewTag = async (name, userData) => {
   return await fetch("http://localhost:8000/graphql", {
     method: "POST",
-    body: JSON.stringify(
-      createNewTag_requestBody(name)
-    ),
+    body: JSON.stringify(createNewTag_requestBody(name)),
     headers: {
       "Content-Type": "application/json",
       Authorization: userData.token,
       userId: userData.userId
     }
-  }).then(res => {
-    return res.json();
   })
-  .then(resData => {
-    return resData
-  })
-  .catch(err => {
-    throw err
-  });
+    .then(res => {
+      return res.json();
+    })
+    .then(resData => {
+      return resData;
+    })
+    .catch(err => {
+      throw err;
+    });
 };

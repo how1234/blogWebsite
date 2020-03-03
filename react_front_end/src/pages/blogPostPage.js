@@ -3,7 +3,7 @@ import ReactMarkdown from 'react-markdown'
 import {Spin,Layout} from 'antd'
 import { useHistory,useParams } from 'react-router-dom'
 
-import {getABlogPost} from '../helper/requestMethods'
+import {getABlogPost} from '../helper/requestMethodsToServer'
 
 export const BlogPostPage = () => {
     const history = useHistory()

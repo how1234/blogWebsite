@@ -1,6 +1,14 @@
 import React, { useEffect, useState, Fragment } from "react";
 import ReactMarkdown from "react-markdown";
-import { Spin, Layout, Divider, PageHeader, Button, Descriptions,Row } from "antd";
+import {
+  Spin,
+  Layout,
+  Divider,
+  PageHeader,
+  Button,
+  Descriptions,
+  Row
+} from "antd";
 import { useHistory, useParams } from "react-router-dom";
 
 import { fetchABlogPostText } from "../helper/CommonMethodsInClient";
@@ -55,34 +63,26 @@ export const BlogPostPage = () => {
         <Spin style={{ display: "block", margin: "auto" }} />
       ) : (
         <Fragment>
-            <PageHeader
-              ghost={false}
-              onBack={() => window.history.back()}
-              title={title}
-            >
-              <Descriptions size="small" column={3}>
-                <Descriptions.Item label="Created Time">
-                 {createdDate}
-                </Descriptions.Item>
-                <Descriptions.Item label="Last Modified Date">
-                  {lastModifiedDate}
-                </Descriptions.Item>
-                <Descriptions.Item label="Tags">
-                  {tags.join(",")}
-                </Descriptions.Item>
-             
-              </Descriptions>
-              <Descriptions size="small" column={1}>
-              <Descriptions.Item label="Description">
-                  This is Description
-                </Descriptions.Item>
-              </Descriptions>
-            </PageHeader>
-          ,<Divider></Divider>
-       
-            <ReactMarkdown source={text} />
-       
-         
+          <PageHeader
+            ghost={false}
+            onBack={() => window.history.back()}
+            title={title}
+          >
+            <Descriptions size="small" column={3}>
+              <Descriptions.Item label="Created Time">
+                {createdDate}
+              </Descriptions.Item>
+              <Descriptions.Item label="Last Modified Date">
+                {lastModifiedDate}
+              </Descriptions.Item>
+              <Descriptions.Item label="Tags">
+                {tags.join(",")}
+              </Descriptions.Item>
+            </Descriptions>
+          </PageHeader>
+          <Divider></Divider>
+
+          <ReactMarkdown source={text} />
         </Fragment>
       )}
     </Fragment>

@@ -28,12 +28,14 @@ return (
 };
 
 const BlogPage = () => {
+const tagsList = useSelector(state => state.tags.tagsList);
   const dataList = useSelector(state => state.blogPosts.dataList);
   const [selectedKey, setSelectedKey] = useState("All");
   const [filteredList, setFilteredList] = useState([]);
     
   const [loaded,setLoaded] = useState(false) 
-  const tagsList = useSelector(state => state.tags.tagsList);
+ 
+  const fileNotBeRead = Boolean(!tagsList||!tagsList.length ===0 || !dataList || dataList.length ===0)
 
   const dispatch = useDispatch();
 
@@ -41,10 +43,12 @@ const BlogPage = () => {
     let isCancelled = false;
     let runAsync = async () => {
       try {
-        if (!isCancelled) {
+        if (fileNotBeRead && !isCancelled) {
           await fetchTags(dispatch);
           await fetchPostsData(dispatch);
           setLoaded(true)
+        }else{
+            setLoaded(true)
         }
       } catch (err) {
         if (!isCancelled) {
@@ -63,9 +67,8 @@ const BlogPage = () => {
   const filterList = () => {
 
     if(selectedKey !== "All"){
-        const fullDataList = deepClone(dataList);
         setFilteredList(
-          fullDataList.filter(element => {
+            dataList.filter(element => {
             return element.tags.indexOf(selectedKey) > -1;
           })
         );

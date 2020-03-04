@@ -125,6 +125,9 @@ export const EditBlogPostPage = props => {
   const handleTitleChange = e => {
     setTitle(e.target.value);
   };
+  const handleCancel = e => {
+      history.push("/admincenter")
+  }
   return (
     <Fragment>
       <ReactMarkdown
@@ -203,7 +206,7 @@ export const EditBlogPostPage = props => {
           </Button>
         )}
 
-        <Button type="danger" >Cancel</Button>
+        <Button type="danger" onClick={handleCancel} >Cancel</Button>
       </Row>
     </Fragment>
   );

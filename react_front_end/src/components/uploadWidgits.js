@@ -14,11 +14,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { fileToText } from "../helper/fileReader";
 import { fetchTags } from "../helper/CommonMethodsInClient";
 import {
-  uploadSingleBlogPost,
+  createABlogPost,
   getAllBlogPosts,
   getAllTags,
   createNewTag
 } from "../helper/requestMethodsToServer";
+
+import { Link } from "react-router-dom";
 
 const UploadWidgits = () => {
   const [fileList, setFileList] = useState([]);
@@ -26,11 +28,11 @@ const UploadWidgits = () => {
   const { userId, token } = useSelector(state => state.auth);
   const dispatch = useDispatch();
 
-  const tags = useSelector(state => state.tags.tagsList)
+  const tags = useSelector(state => state.tags.tagsList);
   const [newTagName, setNewTagName] = useState("");
   const [selectedTags, setSelectedTags] = useState("");
 
-  const [newFileTitle,setnewFileTitle] = useState("")
+  const [newFileTitle, setnewFileTitle] = useState("");
 
   useEffect(() => {
     let isCancelled = false;
@@ -59,13 +61,12 @@ const UploadWidgits = () => {
   };
 
   const handleTitleChange = e => {
-    e.preventDefault()
-    console.log(newFileTitle)
-    setnewFileTitle(e.target.value)
-  }
+    e.preventDefault();
+    console.log(newFileTitle);
+    setnewFileTitle(e.target.value);
+  };
 
   const handleCreateTagEvent = async () => {
-   
     if (!newTagName) {
       message.warn("The tag or title can't be empty");
     } else {
@@ -77,7 +78,6 @@ const UploadWidgits = () => {
         } else {
           message.info("Successful");
         }
-        
       } catch (err) {
         message.warn(err);
       }
@@ -94,16 +94,15 @@ const UploadWidgits = () => {
       for (let file of fileList) {
         let fileTextData = await fileToText(file);
         let title = newFileTitle;
-        let createdDate = new Date()
-        let lastModifiedDate = new Date()
-        sentFiles.push({ fileTextData, title,createdDate,lastModifiedDate });
+        
+        sentFiles.push({ fileTextData, title });
       }
 
       setUploading(true);
 
       for (let i = 0; i < sentFiles.length; i++) {
         try {
-          const result = await uploadSingleBlogPost(
+          const result = await createABlogPost(
             sentFiles[i],
             {
               token,
@@ -111,7 +110,7 @@ const UploadWidgits = () => {
             },
             selectedTags
           );
-  
+
           const serverData = await getAllBlogPosts();
           dispatch({
             type: "RELOAD_BLOGPOSTS",
@@ -168,42 +167,54 @@ const UploadWidgits = () => {
             {uploading ? "Uploading" : "Start Upload"}
           </Button>
         </Col>
+        <Col>
+          <Link to="/adminCenter/editPosts/new">
+            <Button>
+              <Icon type="form"/>Create new BlogPost
+
+            </Button>
+          </Link>
+        </Col>
 
         {fileList && fileList.length > 0 && (
-        <Fragment>
-          <Col span={3}>
-            <Select
-              allowClear
-              style={{ width: "100%" }}
-              placeholder="Tags"
-              mode="multiple"
-              onSelect={label => {
-                if (selectedTags.indexOf(label) < 0) {
-                  setSelectedTags([...selectedTags, label]);
-                }
-              }}
-              onDeselect={label => {
-                setSelectedTags(
-                  selectedTags.filter(element => element !== label)
-                );
-              }}
-              dropdownRender={menu => (
-                <div>
-                  {menu}
-                  <Divider style={{ margin: "4px 0" }} />
-                </div>
-              )}
-            >
-              {tags.map(item => (
-                <Select.Option key={item} value={item}>
-                  {item}
-                </Select.Option>
-              ))}
-            </Select>
-          </Col>
-          <Col span={3}>
-            <Input placeholder="Title" onChange={handleTitleChange} value={newFileTitle}></Input>
-          </Col>
+          <Fragment>
+            <Col span={3}>
+              <Select
+                allowClear
+                style={{ width: "100%" }}
+                placeholder="Tags"
+                mode="multiple"
+                onSelect={label => {
+                  if (selectedTags.indexOf(label) < 0) {
+                    setSelectedTags([...selectedTags, label]);
+                  }
+                }}
+                onDeselect={label => {
+                  setSelectedTags(
+                    selectedTags.filter(element => element !== label)
+                  );
+                }}
+                dropdownRender={menu => (
+                  <div>
+                    {menu}
+                    <Divider style={{ margin: "4px 0" }} />
+                  </div>
+                )}
+              >
+                {tags.map(item => (
+                  <Select.Option key={item} value={item}>
+                    {item}
+                  </Select.Option>
+                ))}
+              </Select>
+            </Col>
+            <Col span={3}>
+              <Input
+                placeholder="Title"
+                onChange={handleTitleChange}
+                value={newFileTitle}
+              ></Input>
+            </Col>
           </Fragment>
         )}
       </Row>

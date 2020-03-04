@@ -55,11 +55,12 @@ export const getBlogPost_requestBody = id => {
         `
   };
 };
-export const updateBlogPost_requestBody = (id,title,text) => {
+export const updateBlogPost_requestBody = (id,title,text,selectedTags) => {
+    
     return {
         query: `
         mutation{
-            updateBlogPost(_id:"${id}",title:"${title}",text:"${text}",tags:[]){
+            updateBlogPost(_id:"${id}",title:"${encodeURIComponent(title)}",text:"${encodeURIComponent(text)}",tags:${JSON.stringify(selectedTags)}){
               title,
               tags
             }

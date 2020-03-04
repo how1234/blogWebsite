@@ -34,7 +34,7 @@ export const loginAsAdmin = async (email, password) => {
       throw err
     });
 };
-export const uploadSingleBlogPost = async (
+export const createABlogPost = async (
   blogPost,
   userData,
   selectedTags
@@ -104,14 +104,16 @@ export const getABlogPost = async id => {
 };
 
 
-export const updateABlogPost = async ( {id,title,text}, userData) => {
+export const updateABlogPost = async ( {id,title,text}, userData,selectedTags) => {
+  console.log(updateBlogPost_requestBody(id,title,text,selectedTags))
   return await fetch("http://localhost:8000/graphql", {
     method: "POST",
-    body: JSON.stringify(updateBlogPost_requestBody(id,title,text)),
+    body: JSON.stringify(updateBlogPost_requestBody(id,title,text,selectedTags)),
     headers: {
       "Content-Type": "application/json",
       Authorization: userData.token,
-      userId: userData.userId
+      userId: userData.userId,
+      
     }
   })
     .then(res => {

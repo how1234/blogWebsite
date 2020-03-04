@@ -77,10 +77,12 @@ module.exports = {
   },
   updateBlogPost: async (input,req) => {
     try{
+      console.log(input)
       const result = await BlogPost.findById({_id:input._id}) 
-      result.text = input.text
-      result.title = input.title
+      result.text = decodeURIComponent(input.text)
+      result.title = decodeURIComponent(input.title)
       result.lastModifiedDate = new Date()
+      result.tags = input.tags
       await result.save()
       return result
     }catch(err){

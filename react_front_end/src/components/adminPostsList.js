@@ -21,12 +21,23 @@ export const AdminPostsList = props => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const abortController = new AbortController();
-   
+      let isCancelled = false
+      const runAsync = async() => {
+          try{
+            if(!isCancelled){
+                await fetchPostsData(dispatch);
+              }
+          }catch(err){
+            if(!isCancelled){
+                throw err
+            }
+          }
+          
+      }
+      runAsync()
+  
     
-    fetchPostsData(dispatch);
-    
-    return () =>{abortController.abort()}
+    return () =>{isCancelled=true}
   }, []);
 
   const removeBlogPost = id => {

@@ -11,9 +11,13 @@ const bloggerSchema = new Schema({
     type: String,
     required: true
   },
-  date: {
+  createdDate: {
     type: Date,
     required: true
+  },
+  lastModifiedDate:{
+    type:Date,
+    required:true
   },
   creator: {
     type: Schema.Types.ObjectId,

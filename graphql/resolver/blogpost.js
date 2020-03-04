@@ -12,7 +12,8 @@ module.exports = {
       return blogPosts.map(blogpost => {
         return {
           _id: blogpost.id,
-          date: blogpost._doc.date,
+          createdDate: blogpost._doc.createdDate,
+          lastModifiedDate:blogpost._doc.lastModifiedDate,
           title: blogpost._doc.title,
           tags: blogpost._doc.tags,
           creator: singleUser(blogpost._doc.creator)
@@ -42,7 +43,8 @@ module.exports = {
         title: decodeURIComponent(input.blogPostInput.title),
         text: decodeURIComponent(input.blogPostInput.text),
         tags: tags,
-        date: new Date(),
+        createdDate: new Date(),
+        lastModifiedDate:new Date(),
         creator: req.get("userId")
       });
  
@@ -73,9 +75,21 @@ module.exports = {
       throw err;
     }
   },
+  updateBlogPost: async (input,req) => {
+    try{
+      const result = await BlogPost.findById({_id:input._id}) 
+      result.text = input.text
+      result.title = input.title
+      result.lastModifiedDate = new Date()
+      await result.save()
+      return result
+    }catch(err){
+      throw err
+    }
+  },
   removeBlogPost: async (input,req) =>{
     try{
-      const result = await BlogPost.deleteOne({_id:input._id}) //A object
+      const result = await BlogPost.deleteOne({_id:input._id}) 
       const author = await User.findById(req.get("userId"));
       const filteredBlogPosts = author.createBlogPosts.filter( element => element._id !=  input._id)
 

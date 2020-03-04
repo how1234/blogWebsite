@@ -52,7 +52,6 @@ export const AdminPostsList = props => {
     setRemovedPostId("");
     setModalVisible(false);
   };
-  console.log(dataList);
   return (
     <div style={{ width: "100%" }}>
       <List

@@ -6,7 +6,8 @@ type BlogPost {
     _id:ID!
     title:String!
     text:String!
-    date:String!
+    createdDate:String!
+    lastModifiedDate:String!
     creator:User!
     tags:[String!]
 }
@@ -56,6 +57,7 @@ type RootMutation{
     createBlogPost(blogPostInput:BlogPostInput): BlogPost,
     createUser(userInput:UserInput):User,
     createTag(name:String):Tag
+    updateBlogPost(_id:ID,title:String,text:String,tags:[String!]!):BlogPost
 }
 
 schema{

@@ -3,6 +3,7 @@ import {
   createBlogPost_requestBody,
   getAllBlogPosts_requestBody,
   getBlogPost_requestBody,
+  updateBlogPost_requestBody,
   removeBlogPost_requestBody,
   getAllTags_requestBody,
   createNewTag_requestBody
@@ -96,6 +97,28 @@ export const getABlogPost = async id => {
     })
     .then(resData => {
       return resData.data.getBlogPost;
+    })
+    .catch(err => {
+      throw err;
+    });
+};
+
+
+export const updateABlogPost = async ( {id,title,text}, userData) => {
+  return await fetch("http://localhost:8000/graphql", {
+    method: "POST",
+    body: JSON.stringify(updateBlogPost_requestBody(id,title,text)),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: userData.token,
+      userId: userData.userId
+    }
+  })
+    .then(res => {
+      return res.json();
+    })
+    .then(resData => {
+      return resData;
     })
     .catch(err => {
       throw err;

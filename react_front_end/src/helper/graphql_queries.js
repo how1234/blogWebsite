@@ -47,12 +47,26 @@ export const getBlogPost_requestBody = id => {
               getBlogPost(_id:"${id}"){
                   title
                   text
+                  createdDate
+                  lastModifiedDate
+                  tags
                 }
             }
         `
   };
 };
-
+export const updateBlogPost_requestBody = (id,title,text) => {
+    return {
+        query: `
+        mutation{
+            updateBlogPost(_id:"${id}",title:"${title}",text:"${text}",tags:[]){
+              title,
+              tags
+            }
+          }
+        `
+    }
+}
 export const removeBlogPost_requestBody = id => {
   return {
     query: `
@@ -86,3 +100,4 @@ export const createNewTag_requestBody = name => {
            `
   };
 };
+

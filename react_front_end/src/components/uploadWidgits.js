@@ -30,6 +30,8 @@ const UploadWidgits = () => {
   const [newTagName, setNewTagName] = useState("");
   const [selectedTags, setSelectedTags] = useState("");
 
+  const [newFileTitle,setnewFileTitle] = useState("")
+
   useEffect(() => {
     let isCancelled = false;
     let runAsync = async () => {
@@ -56,9 +58,16 @@ const UploadWidgits = () => {
     setNewTagName(e.target.value);
   };
 
+  const handleTitleChange = e => {
+    e.preventDefault()
+    console.log(newFileTitle)
+    setnewFileTitle(e.target.value)
+  }
+
   const handleCreateTagEvent = async () => {
+   
     if (!newTagName) {
-      message.warn("The name of new tag can't be empty");
+      message.warn("The tag or title can't be empty");
     } else {
       try {
         const result = await createNewTag(newTagName.trim(), { token, userId });
@@ -75,8 +84,8 @@ const UploadWidgits = () => {
     }
   };
   const handleUpload = async () => {
-    if (selectedTags.length < 1) {
-      message.warn("Tag can't be empty");
+    if (selectedTags.length < 1 || !newFileTitle) {
+      message.warn("Tag or Title can't be empty");
       return;
     }
     const sentFiles = [];
@@ -84,8 +93,10 @@ const UploadWidgits = () => {
     try {
       for (let file of fileList) {
         let fileTextData = await fileToText(file);
-        let title = file.name;
-        sentFiles.push({ fileTextData, title });
+        let title = newFileTitle;
+        let createdDate = new Date()
+        let lastModifiedDate = new Date()
+        sentFiles.push({ fileTextData, title,createdDate,lastModifiedDate });
       }
 
       setUploading(true);
@@ -100,8 +111,7 @@ const UploadWidgits = () => {
             },
             selectedTags
           );
-          console.log(selectedTags);
-
+  
           const serverData = await getAllBlogPosts();
           dispatch({
             type: "RELOAD_BLOGPOSTS",
@@ -160,7 +170,8 @@ const UploadWidgits = () => {
         </Col>
 
         {fileList && fileList.length > 0 && (
-          <Col span={6}>
+        <Fragment>
+          <Col span={3}>
             <Select
               allowClear
               style={{ width: "100%" }}
@@ -190,6 +201,10 @@ const UploadWidgits = () => {
               ))}
             </Select>
           </Col>
+          <Col span={3}>
+            <Input placeholder="Title" onChange={handleTitleChange} value={newFileTitle}></Input>
+          </Col>
+          </Fragment>
         )}
       </Row>
       <Row style={{ marginTop: "5%" }} type="flex" justify="space-around">

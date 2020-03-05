@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-require('dotenv').config()
+
+require("dotenv").config({ path: __dirname + "/.env" });
 
 const graphQLMiddle = require("express-graphql");
 const mongoose = require("mongoose");
@@ -53,13 +54,13 @@ app.post("/graphql", bruteforce.prevent, function(req, res, next) {
 });
 
 // Handles any requests that don't match the ones above
-app.get("/favicon.ico", (req, res) => {
-  res.sendFile(path.join(__dirname, "favicon.ico"));
-});
+
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "react_front_end/build/index.html"));
 });
+
+console.log('public url: ', process.env.PUBLIC_URL)
 
 
 

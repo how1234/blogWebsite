@@ -53,9 +53,16 @@ app.post("/graphql", bruteforce.prevent, function(req, res, next) {
 });
 
 // Handles any requests that don't match the ones above
+app.get("/favicon.ico", (req, res) => {
+  res.sendFile(path.join(__dirname, "favicon.ico"));
+});
+
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "react_front_end/build/index.html"));
 });
+
+
+
 
 mongoose
   .connect(mongoURL)

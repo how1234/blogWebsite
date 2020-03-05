@@ -32,7 +32,7 @@ function SidersNav() {
 
   function handleClick(item) {
     const clickedKey = item.key;
-    if (clickedKey === "4") {
+    if (clickedKey === "3") {
       logout();
       dispatch({
         type: "UPDATE_PAGE_DATA",

@@ -18,6 +18,8 @@ type Comment{
     userName:String!
     createdDate:String!
     text:String!
+    relatedPost:BlogPost!
+    repliedComment:[Comment!]!
 }
 
 type User{

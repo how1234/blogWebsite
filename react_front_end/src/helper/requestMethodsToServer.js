@@ -10,7 +10,7 @@ import {
 } from "./graphql_queries";
 
 export const loginAsAdmin = async (email, password) => {
-  return await fetch("http://localhost:8000/graphql", {
+  return await fetch("http://localhost:8080/graphql", {
     method: "POST",
     body: JSON.stringify(login_requestBody(email, password)),
     headers: {
@@ -40,7 +40,7 @@ export const createABlogPost = async (
   userData,
   selectedTags
 ) => {
-  return await fetch("http://localhost:8000/graphql", {
+  return await fetch("http://localhost:8080/graphql", {
     method: "POST",
     body: JSON.stringify(
       createBlogPost_requestBody(
@@ -67,7 +67,7 @@ export const createABlogPost = async (
 };
 
 export const getAllBlogPosts = async () => {
-  return await fetch("http://localhost:8000/graphql", {
+  return await fetch("http://localhost:8080/graphql", {
     method: "POST",
     body: JSON.stringify(getAllBlogPosts_requestBody()),
     headers: {
@@ -86,7 +86,7 @@ export const getAllBlogPosts = async () => {
 };
 
 export const getABlogPost = async id => {
-  return await fetch("http://localhost:8000/graphql", {
+  return await fetch("http://localhost:8080/graphql", {
     method: "POST",
     body: JSON.stringify(getBlogPost_requestBody(id)),
     headers: {
@@ -107,7 +107,7 @@ export const getABlogPost = async id => {
 
 export const updateABlogPost = async ( {id,title,text}, userData,selectedTags) => {
   console.log(updateBlogPost_requestBody(id,title,text,selectedTags))
-  return await fetch("http://localhost:8000/graphql", {
+  return await fetch("http://localhost:8080/graphql", {
     method: "POST",
     body: JSON.stringify(updateBlogPost_requestBody(id,title,text,selectedTags)),
     headers: {
@@ -129,7 +129,7 @@ export const updateABlogPost = async ( {id,title,text}, userData,selectedTags) =
 };
 
 export const removeABlogPost = async (id, userData) => {
-  return await fetch("http://localhost:8000/graphql", {
+  return await fetch("http://localhost:8080/graphql", {
     method: "POST",
     body: JSON.stringify(removeBlogPost_requestBody(id)),
     headers: {
@@ -150,7 +150,7 @@ export const removeABlogPost = async (id, userData) => {
 };
 
 export const getAllTags = async () => {
-  return await fetch("http://localhost:8000/graphql", {
+  return await fetch("http://localhost:8080/graphql", {
     method: "POST",
     body: JSON.stringify(getAllTags_requestBody()),
     headers: {
@@ -169,7 +169,7 @@ export const getAllTags = async () => {
 };
 
 export const createNewTag = async (name, userData) => {
-  return await fetch("http://localhost:8000/graphql", {
+  return await fetch("http://localhost:8080/graphql", {
     method: "POST",
     body: JSON.stringify(createNewTag_requestBody(name)),
     headers: {

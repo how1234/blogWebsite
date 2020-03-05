@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import {getYearAndMouth} from '../helper/utils'
 const VistorPostsList = props => {
   const list = props.list;
-    console.log(list)
   return (
     <div style={{margin:"auto",width:"70%"}}>
       <Col type="flex" justify="center" >

@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-
-require("dotenv").config({ path: __dirname + "/.env" });
+require("dotenv").config();
+// require("dotenv").config({ path: __dirname + "/.env" });
 
 const graphQLMiddle = require("express-graphql");
 const mongoose = require("mongoose");
@@ -60,7 +60,6 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "react_front_end/build/index.html"));
 });
 
-console.log('public url: ', process.env.PUBLIC_URL)
 
 
 
@@ -68,11 +67,11 @@ console.log('public url: ', process.env.PUBLIC_URL)
 mongoose
   .connect(mongoURL)
   .then(() => {
-    console.log("Server runs on local 8000");
+    console.log("Server runs on local 8080");
   })
   .catch(err => {
     
     console.log(err);
   });
 
-app.listen(8000 || process.env.PORT );
+app.listen(8080 || process.env.PORT );

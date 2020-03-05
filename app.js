@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const cookieParser = require("cookie-parser");
+require('dotenv').config()
+
 const graphQLMiddle = require("express-graphql");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -18,7 +19,7 @@ var bruteforce = new ExpressBrute(store, {
   lifetime: 24 * 60 * 60, // 1 day (seconds not milliseconds)
 });
 
-require("dotenv").config({ path: __dirname + "/.env" });
+
 
 const app = express();
 
@@ -28,6 +29,8 @@ const graphQLResolver = require("./graphql/resolver/index");
 const isAuth = require("./middleware/is-auth");
 
 const mongoURL = `mongodb+srv://${process.env["MONGO_USER"]}:${process.env["MONGO_PASSWORD"]}@cluster0-8z33n.mongodb.net/bloggers_DB?retryWrites=true&w=majority`;
+
+
 
 app.use(bodyParser.json());
 

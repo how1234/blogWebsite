@@ -13,3 +13,14 @@ export const deepClone = (obj) => {
 
 
 
+export const getYearAndMouth = (dateString) => {
+  let result = new Date (Number(dateString)).toLocaleString()
+
+  if(result.split(",") && result.split(",")[0]){
+    result = result.split(",")[0]
+  }
+
+
+  return result
+  
+}

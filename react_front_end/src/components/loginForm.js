@@ -47,7 +47,8 @@ function LoginForm() {
     }
   };
   return (
-    <Form onSubmit={handleSubmit} className="login-form">
+    <div style={{width:"100%",display:"flex",justifyContent:"center",alignItems:"center"}}>
+    <Form style={{marginTop:"10%"}}onSubmit={handleSubmit} className="login-form">
       <Form.Item>
         <Input
           ref={emailRef}
@@ -75,6 +76,7 @@ function LoginForm() {
       </Form.Item>
       {errorMessage && <Alert message={errorMessage} type="error" showIcon />}
     </Form>
+    </div>
   );
 }
 

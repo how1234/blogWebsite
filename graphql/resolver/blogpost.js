@@ -16,6 +16,7 @@ module.exports = {
           lastModifiedDate:blogpost._doc.lastModifiedDate,
           title: blogpost._doc.title,
           tags: blogpost._doc.tags,
+          comments:blogpost._doc.comments,
           creator: singleUser(blogpost._doc.creator)
         };
       });
@@ -43,6 +44,7 @@ module.exports = {
         title: decodeURIComponent(input.blogPostInput.title),
         text: decodeURIComponent(input.blogPostInput.text),
         tags: tags,
+        comments:[],
         createdDate: new Date(),
         lastModifiedDate:new Date(),
         creator: req.get("userId")
@@ -83,6 +85,7 @@ module.exports = {
       result.title = decodeURIComponent(input.title)
       result.lastModifiedDate = new Date()
       result.tags = input.tags
+      result.comments = result.comments
       await result.save()
       return result
     }catch(err){

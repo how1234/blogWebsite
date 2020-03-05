@@ -41,7 +41,8 @@ app.use(
   "/graphql",
   graphQLMiddle({
     schema: graphQLSchema,
-    rootValue: graphQLResolver
+    rootValue: graphQLResolver,
+    graphiql:true
   })
 );
 app.post("/graphql", bruteforce.prevent, function(req, res, next) {
@@ -59,7 +60,8 @@ mongoose
     console.log("Server runs on local 8000");
   })
   .catch(err => {
+    
     console.log(err);
   });
 
-app.listen(process.env.PORT || 8000);
+app.listen(8000 || process.env.PORT );

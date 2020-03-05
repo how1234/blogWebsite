@@ -10,6 +10,14 @@ type BlogPost {
     lastModifiedDate:String!
     creator:User!
     tags:[String!]
+    comments:[Comment!]!
+}
+
+type Comment{
+    _id:ID!
+    userName:String!
+    createdDate:String!
+    text:String!
 }
 
 type User{

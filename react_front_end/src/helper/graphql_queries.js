@@ -12,13 +12,15 @@ export const login_requestBody = (email, password) => {
   };
 };
 
-export const createBlogPost_requestBody = (title, text,selectedTags) => {
+export const createBlogPost_requestBody = (title, text, selectedTags) => {
   return {
     query: `
           mutation {
               createBlogPost(blogPostInput:{title:"${encodeURIComponent(
                 title
-              )}",text:"${encodeURIComponent(text)}",tags:${JSON.stringify(selectedTags)}}){
+              )}",text:"${encodeURIComponent(text)}",tags:${JSON.stringify(
+      selectedTags
+    )}}){
                 title
               }
           }
@@ -31,9 +33,15 @@ export const getAllBlogPosts_requestBody = () => {
     query: `
           query {
             blogPosts{
-                _id
+                 _id
                 title
                 tags
+                createdDate
+                lastModifiedDate
+              	comments{
+                	_id
+                }
+           
               }
           }
       `
@@ -55,19 +63,22 @@ export const getBlogPost_requestBody = id => {
         `
   };
 };
-export const updateBlogPost_requestBody = (id,title,text,selectedTags) => {
-    
-    return {
-        query: `
+export const updateBlogPost_requestBody = (id, title, text, selectedTags) => {
+  return {
+    query: `
         mutation{
-            updateBlogPost(_id:"${id}",title:"${encodeURIComponent(title)}",text:"${encodeURIComponent(text)}",tags:${JSON.stringify(selectedTags)}){
+            updateBlogPost(_id:"${id}",title:"${encodeURIComponent(
+      title
+    )}",text:"${encodeURIComponent(text)}",tags:${JSON.stringify(
+      selectedTags
+    )}){
               title,
               tags
             }
           }
         `
-    }
-}
+  };
+};
 export const removeBlogPost_requestBody = id => {
   return {
     query: `
@@ -101,4 +112,3 @@ export const createNewTag_requestBody = name => {
            `
   };
 };
-

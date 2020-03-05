@@ -15,7 +15,7 @@ import SideNavs from "./components/sidersNav";
 import HomePage from "./pages/homePage";
 import AdminCenter from './pages/adminCenter'
 import LoginPage from "./pages/loginPage";
-import BlogPage from "./pages/blogPage";
+import BlogPage from "./pages/homePage";
 import BlogPostPage from "./pages/blogPostPage";
 import errorPage from "./pages/errorPage";
 import EditBlogPostPage from "./pages/editBlogPostPage";
@@ -46,7 +46,6 @@ function App() {
               {isLogin ? <Redirect from='/login' to="/adminCenter" /> : <Redirect from='/adminCenter' to="/login"/>}
               <Route path="/adminCenter" exact component={AdminCenter} />
               <Route path="/login" component={LoginPage}/>
-              <Route path="/blog" component={BlogPage} />
               <Route path="/posts/:id" component={BlogPostPage} />
               <Route path="/adminCenter/editPosts/:id" component={EditBlogPostPage}/>
               <Route path="/404" component={errorPage} />

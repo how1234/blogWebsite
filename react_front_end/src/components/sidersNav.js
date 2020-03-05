@@ -2,18 +2,22 @@ import React, { useState } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 
-import { Link,useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import "antd/dist/antd.css";
 import { Layout, Menu, Icon, message } from "antd";
+import {
+  GithubOutlined,
+  LinkedinOutlined,
+  SmileOutlined,
+  MailOutlined
+} from "@ant-design/icons";
 
 const { Sider } = Layout;
 function SidersNav() {
-    
-    const history = useHistory()
-  const selectedKey = useSelector(state =>  state.pageData.selectedKey);
+  const history = useHistory();
+  const selectedKey = useSelector(state => state.pageData.selectedKey);
 
   const collapsed = useSelector(state => state.pageData.collapsed);
-
 
   const isLogin = useSelector(state => state.auth.isLogin);
 
@@ -33,16 +37,16 @@ function SidersNav() {
       dispatch({
         type: "UPDATE_PAGE_DATA",
         payload: { selectedKey: "1", collapsed: collapsed }
-      });;
-      history.push('/')
+      });
+      history.push("/");
       return;
     }
 
     if (clickedKey !== selectedKey) {
-        dispatch({
-            type: "UPDATE_PAGE_DATA",
-            payload: { selectedKey: clickedKey, collapsed: collapsed }
-          });;
+      dispatch({
+        type: "UPDATE_PAGE_DATA",
+        payload: { selectedKey: clickedKey, collapsed: collapsed }
+      });
     } else {
       return;
     }
@@ -85,21 +89,49 @@ function SidersNav() {
         <Menu.Item key="2">
           <Link to="/adminCenter">
             <Icon type="user" />
-            <span>Administrator Center</span>
+            <span>My Center</span>
           </Link>
         </Menu.Item>
 
-        <Menu.Item key="3">
-          <Link to="/blog">
-            <Icon type="form" />
-            <span>Blog</span>
-          </Link>
-        </Menu.Item>
-        {isLogin && (
-          <Menu.Item key="4">
+        {isLogin ? (
+          <Menu.Item key="3">
             <Icon type="form" />
             <span>Log out</span>
           </Menu.Item>
+        ) : (
+          <Menu.SubMenu
+            key="4"
+            title={
+              <span>
+                <SmileOutlined />
+                <span>About me</span>
+              </span>
+            }
+          >
+            <Menu.Item key="5">
+              <a href="https://github.com/how1234/blogWebsite" target="_blank">
+                <GithubOutlined />
+                GitHub
+              </a>
+            </Menu.Item>
+
+            <Menu.Item key="6">
+              <a
+                href="https://www.linkedin.com/in/weiying-zhong-a36170143/"
+                target="_blank"
+              >
+                <LinkedinOutlined />
+                Linkedin
+              </a>
+            </Menu.Item>
+
+            <Menu.Item key="7">
+              <a href="mailto:williamzhong6@gmail.com" target="_blank">
+                <MailOutlined />
+                Email
+              </a>
+            </Menu.Item>
+          </Menu.SubMenu>
         )}
       </Menu>
     </Sider>

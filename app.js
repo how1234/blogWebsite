@@ -1,43 +1,57 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const cookieParser = require("cookie-parser")
+const cookieParser = require("cookie-parser");
 const graphQLMiddle = require("express-graphql");
 const mongoose = require("mongoose");
-const  cors = require('cors')
+const cors = require("cors");
+const path = require("path");
+
+var ExpressBrute = require("express-brute");
+
+var store = new ExpressBrute.MemoryStore(); // stores state locally, don't use this in production
+var bruteforce = new ExpressBrute(store, {
+  freeRetries: 1000,
+  attachResetToRequest: false,
+  refreshTimeoutOnRequest: false,
+  minWait: 25 * 60 * 60 * 1000, // 1 day 1 hour (should never reach this wait time)
+  maxWait: 25 * 60 * 60 * 1000, // 1 day 1 hour (should never reach this wait time)
+  lifetime: 24 * 60 * 60, // 1 day (seconds not milliseconds)
+});
+
+require("dotenv").config({ path: __dirname + "/.env" });
 
 const app = express();
 
-const graphQLSchema = require('./graphql/schema')
+const graphQLSchema = require("./graphql/schema");
 
-const graphQLResolver = require('./graphql/resolver/index')
-const isAuth = require('./middleware/is-auth')
+const graphQLResolver = require("./graphql/resolver/index");
+const isAuth = require("./middleware/is-auth");
 
-
-const mongoURL = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0-8z33n.mongodb.net/bloggers_DB?retryWrites=true&w=majority`;
+const mongoURL = `mongodb+srv://${process.env["MONGO_USER"]}:${process.env["MONGO_PASSWORD"]}@cluster0-8z33n.mongodb.net/bloggers_DB?retryWrites=true&w=majority`;
 
 app.use(bodyParser.json());
 
+app.use(cors());
+// Serve the static files from the React app
+app.use(express.static(path.join(__dirname, "react_front_end/build")));
 
-app.use(cors())
-
-app.use(isAuth)
-
-
-
-
-
-
+app.use(isAuth);
 
 app.use(
   "/graphql",
   graphQLMiddle({
-    schema:graphQLSchema,
-    rootValue: graphQLResolver,
-    graphiql: true
+    schema: graphQLSchema,
+    rootValue: graphQLResolver
   })
 );
+app.post("/graphql", bruteforce.prevent, function(req, res, next) {
+  next();
+});
 
-
+// Handles any requests that don't match the ones above
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "react_front_end/build/index.html"));
+});
 
 mongoose
   .connect(mongoURL)
@@ -48,4 +62,4 @@ mongoose
     console.log(err);
   });
 
-app.listen(8000);
+app.listen(process.env.PORT || 8000);

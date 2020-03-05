@@ -19,7 +19,8 @@ export const loginAsAdmin = async (email, password) => {
   })
     .then(res => {
       if (res.status.toString()[0] == 5) {
-        return new Error("500 Internal Server Error");
+        console.log(res)
+        return new Error("User doesn't existed or password is incorrect");
       } else if (res.status.toString()[0] == 4) {
         return new Error(res.status);
       } else if (res.status !== 200 && res.status !== 201) {

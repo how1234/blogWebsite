@@ -85,7 +85,7 @@ const tagsList = useSelector(state => state.tags.tagsList);
           <Select
             style={{ width: "50%" }}
             placeholder="Choose Tags"
-            defaultActiveFirstOption
+           
             onSelect={value => {
                 setSelectedKey(value)
               filterList();

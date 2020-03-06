@@ -8,7 +8,7 @@ import {
   updateABlogPost,
   createABlogPost
 } from "../helper/requestMethodsToServer";
-import { fetchTags } from "../helper/CommonMethodsInClient";
+import { fetchTags } from "../helper/commonMethodsInClient";
 import {useHistory} from 'react-router-dom'
 
 import { Row, Button, Input, label, Col, Select, Divider,message } from "antd";

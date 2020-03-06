@@ -5,6 +5,7 @@ import {useDispatch} from 'react-redux'
 export const fetchPostsData = async (dispatch) => {
     try {
       const serverData = await getAllBlogPosts();
+      
       dispatch({
         type: "RELOAD_BLOGPOSTS",
         payload: serverData.data.blogPosts

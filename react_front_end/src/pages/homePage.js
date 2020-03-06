@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { fetchPostsData, fetchTags } from "../helper/CommonMethodsInClient";
+import { fetchPostsData, fetchTags } from "../helper/commonMethodsInClient";
 import { Card, Row, Select,Spin,Divider  } from "antd";
 import VistorPostsList from "../components/vistorPostsList";
 
@@ -13,9 +13,6 @@ const HomePage = () => {
 
   const [loaded, setLoaded] = useState(false);
 
-  const fileNotBeRead = Boolean(
-    !tagsList || !tagsList.length === 0 || !dataList || dataList.length === 0
-  );
 
   const dispatch = useDispatch();
 
@@ -23,13 +20,11 @@ const HomePage = () => {
     let isCancelled = false;
     let runAsync = async () => {
       try {
-        if (fileNotBeRead && !isCancelled) {
+        if (!isCancelled) {
           await fetchTags(dispatch);
           await fetchPostsData(dispatch);
           setLoaded(true);
-        } else {
-          setLoaded(true);
-        }
+        } 
       } catch (err) {
         if (!isCancelled) {
           throw err;
@@ -57,7 +52,7 @@ const HomePage = () => {
     <Fragment>
 
       <div> 
-        <p>The blogposts of mine are also be published to my <a href="https://github.com/how1234/blog" target="_blank">GitHub</a> synchronously. 
+        <p>The blog <a href="https://github.com/how1234/blog" target="_blank">posts</a> and <a href="https://github.com/how1234/https://github.com/how1234/blogWebsite" target="_blank">source code</a> are also be published to my <a href="https://github.com/how1234/" target="_blank">GitHub</a> synchronously. 
           This website is still updating features.
         </p>
       </div>
@@ -88,13 +83,11 @@ const HomePage = () => {
       </Row> */}
 
       <div>
-        {loaded && dataList && dataList.length < 0 ? (
+        {loaded && (!dataList || dataList.length < 1) ? (
           <div> No data </div>
-        ) : selectedKey === "All" && loaded ? (
+        ) :  (
           <VistorPostsList list={dataList} />
-        ) : (
-          <VistorPostsList list={filteredList} />
-        )}
+        ) }
       </div>
     </Fragment>
   );

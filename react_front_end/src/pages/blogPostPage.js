@@ -11,7 +11,7 @@ import {
 } from "antd";
 import { useHistory, useParams } from "react-router-dom";
 
-import { fetchABlogPostText } from "../helper/CommonMethodsInClient";
+import { fetchABlogPostText } from "../helper/commonMethodsInClient";
 
 export const BlogPostPage = () => {
   const history = useHistory();
@@ -81,8 +81,11 @@ export const BlogPostPage = () => {
             </Descriptions>
           </PageHeader>
           <Divider></Divider>
+          <div style={{padding:"8px 20px 8px 20px"}}>
 
+          
           <ReactMarkdown source={text} />
+          </div>
         </Fragment>
       )}
     </Fragment>

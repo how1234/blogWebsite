@@ -12,7 +12,7 @@ import {
 } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { fileToText } from "../helper/fileReader";
-import { fetchTags } from "../helper/CommonMethodsInClient";
+import { fetchTags } from "../helper/commonMethodsInClient";
 import {
   createABlogPost,
   getAllBlogPosts,

@@ -3,7 +3,7 @@ import { List, Button, Modal, message } from "antd";
 
 import { useSelector, useDispatch } from "react-redux";
 
-import { fetchPostsData } from "../helper/CommonMethodsInClient";
+import { fetchPostsData } from "../helper/commonMethodsInClient";
 
 import { useHistory, Link } from "react-router-dom";
 

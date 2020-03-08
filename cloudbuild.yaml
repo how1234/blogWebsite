@@ -4,6 +4,9 @@ steps:
   args: ["install"]
 - name: node:10.15.1
   entrypoint: npm
+  args: ["install","--prefix","./react_front_end"]
+- name: node:10.15.1
+  entrypoint: npm
   args: ["run", "build","--prefix","./react_front_end"]
 - name: node:10.15.1
   entrypoint: npm

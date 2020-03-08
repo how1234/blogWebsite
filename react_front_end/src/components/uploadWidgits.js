@@ -28,7 +28,7 @@ const UploadWidgits = () => {
   const [uploading, setUploading] = useState(false);
   const { userId, token } = useSelector(state => state.auth);
   const dispatch = useDispatch();
-  const [tagLoaded,setTagLoaded] = useState(false)
+  const [tagLoaded, setTagLoaded] = useState(false);
   const tags = useSelector(state => state.tags.tagsList);
   const [newTagName, setNewTagName] = useState("");
   const [selectedTags, setSelectedTags] = useState("");
@@ -41,6 +41,7 @@ const UploadWidgits = () => {
       try {
         if (!isCancelled) {
           await fetchTags(dispatch);
+          setTagLoaded(true);
         }
       } catch (err) {
         if (!isCancelled) {
@@ -94,7 +95,7 @@ const UploadWidgits = () => {
       for (let file of fileList) {
         let fileTextData = await fileToText(file);
         let title = newFileTitle;
-        
+
         sentFiles.push({ fileTextData, title });
       }
 
@@ -170,13 +171,13 @@ const UploadWidgits = () => {
         <Col>
           <Link to="/adminCenter/editPosts/new">
             <Button>
-              <Icon type="form"/>Create new BlogPost
-
+              <Icon type="form" />
+              Create new BlogPost
             </Button>
           </Link>
         </Col>
 
-        {fileList && fileList.length > 0 && (
+        {fileList && fileList.length > 0 && tagLoaded && (
           <Fragment>
             <Col span={3}>
               <Select
@@ -201,11 +202,11 @@ const UploadWidgits = () => {
                   </div>
                 )}
               >
-                { tagLoaded ?tags.map(item => (
+                {tags.map(item => (
                   <Select.Option key={item} value={item}>
                     {item}
                   </Select.Option>
-                )): <Spin></Spin>}
+                ))}
               </Select>
             </Col>
             <Col span={3}>

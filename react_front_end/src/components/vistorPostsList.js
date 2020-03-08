@@ -10,7 +10,7 @@ const VistorPostsList = props => {
 
    {list && list.length >= 0? <div style={{margin:"auto",width:"70%"}}>
       <Col type="flex" justify="center" >
-        {list && list.length > 1 &&
+        {list && list.length >= 1 &&
       <List
         className="demo-loadmore-list"
         itemLayout="horizontal"

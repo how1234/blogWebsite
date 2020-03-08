@@ -8,7 +8,8 @@ import {
   Divider,
   Input,
   Row,
-  message
+  message,
+  Spin
 } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { fileToText } from "../helper/fileReader";
@@ -27,7 +28,7 @@ const UploadWidgits = () => {
   const [uploading, setUploading] = useState(false);
   const { userId, token } = useSelector(state => state.auth);
   const dispatch = useDispatch();
-
+  const [tagLoaded,setTagLoaded] = useState(false)
   const tags = useSelector(state => state.tags.tagsList);
   const [newTagName, setNewTagName] = useState("");
   const [selectedTags, setSelectedTags] = useState("");
@@ -62,7 +63,6 @@ const UploadWidgits = () => {
 
   const handleTitleChange = e => {
     e.preventDefault();
-    console.log(newFileTitle);
     setnewFileTitle(e.target.value);
   };
 
@@ -201,11 +201,11 @@ const UploadWidgits = () => {
                   </div>
                 )}
               >
-                {tags.map(item => (
+                { tagLoaded ?tags.map(item => (
                   <Select.Option key={item} value={item}>
                     {item}
                   </Select.Option>
-                ))}
+                )): <Spin></Spin>}
               </Select>
             </Col>
             <Col span={3}>

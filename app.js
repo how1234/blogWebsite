@@ -28,6 +28,7 @@ const graphQLSchema = require("./graphql/schema");
 const graphQLResolver = require("./graphql/resolver/index");
 const isAuth = require("./middleware/is-auth");
 
+
 const mongoURL = `mongodb+srv://${process.env["MONGO_USER"]}:${process.env["MONGO_PASSWORD"]}@cluster0-8z33n.mongodb.net/bloggers_DB?retryWrites=true&w=majority`;
 
 

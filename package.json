@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
-    "cstart": "concurrently \"nodemon app.js\" \"npm start --prefix ./react_front_end\" "
+    "cstart": "concurrently \"nodemon app.js\" \"npm start --prefix ./react_front_end\" ",
+    "create-env": "printenv > .env"
   },
   "repository": {
     "type": "git",

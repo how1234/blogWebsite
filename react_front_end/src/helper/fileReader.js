@@ -1,5 +1,3 @@
-import {serialize,deserialize} from 'bson'
-
 export const toBase64 = file =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();

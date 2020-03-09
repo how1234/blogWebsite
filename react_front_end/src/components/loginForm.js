@@ -32,7 +32,6 @@ function LoginForm() {
   const login = async (email, password) => {
     try {
       const data = await loginAsAdmin(email, password);
-      console.log(data);
       if (data instanceof Error) {
         message.error(data.message);
       } else {

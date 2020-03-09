@@ -1,5 +1,6 @@
 import {
   login_requestBody,
+  auth_requestBody,
   createBlogPost_requestBody,
   getAllBlogPosts_requestBody,
   getBlogPost_requestBody,
@@ -10,7 +11,7 @@ import {
 } from "./graphql_queries";
 
 let url;
-if(window.location.origin === "http://localhost:2000"){
+if(window.location.origin === "http://localhost:3000"){
   url="http://localhost:8080/graphql"
 }else{
   url=`/graphql`
@@ -43,6 +44,30 @@ export const loginAsAdmin = async (email, password) => {
       throw err
     });
 };
+
+export const authToServer = async (userData) => {
+  return await fetch(url, {
+    method: "POST",
+    body: JSON.stringify(auth_requestBody()),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: userData.token,
+      userId: userData.userId
+    }
+  })
+    .then(res => {
+
+      console.log(res.json)
+      return res.json();
+    })
+    .then(resData => {
+      return resData;
+    })
+    .catch(err => {
+      throw err
+    });
+};
+
 export const createABlogPost = async (
   blogPost,
   userData,

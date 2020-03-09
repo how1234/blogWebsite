@@ -11,7 +11,15 @@ export const login_requestBody = (email, password) => {
     `
   };
 };
-
+export const auth_requestBody = () => {
+  return {
+    query: `
+        query{
+          authAsAdmin
+        }
+    `
+  };
+};
 export const createBlogPost_requestBody = (title, text, selectedTags) => {
   return {
     query: `

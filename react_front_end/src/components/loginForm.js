@@ -25,13 +25,14 @@ function LoginForm() {
       setErrorMessage("Invalid input!");
     }
   };
+
   const checkedRemember = e => {
     setChecked(e.target.checked);
   };
 
   const login = async (email, password) => {
     try {
-      const data = await loginAsAdmin(email, password);
+      const data = await loginAsAdmin(email, password,checked);
       if (data instanceof Error) {
         message.error(data.message);
       } else {

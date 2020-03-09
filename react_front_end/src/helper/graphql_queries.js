@@ -1,8 +1,8 @@
-export const login_requestBody = (email, password) => {
+export const login_requestBody = (email, password,checked) => {
   return {
     query: `
         query{
-            login(email:"${email}",password:"${password}"){
+            login(email:"${email}",password:"${password}",keepLogin:${checked}){
                 userId,
                 token,
                 tokenExpiration

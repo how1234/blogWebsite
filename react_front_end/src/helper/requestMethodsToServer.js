@@ -18,10 +18,12 @@ if(window.location.origin === "http://localhost:3000"){
 }
 console.log(url)
 
-export const loginAsAdmin = async (email, password) => {
+export const loginAsAdmin = async (email, password,checked) => {
+  console.log(checked)
+  console.log(login_requestBody(email, password,checked))
   return await fetch(url, {
     method: "POST",
-    body: JSON.stringify(login_requestBody(email, password)),
+    body: JSON.stringify(login_requestBody(email, password,checked)),
     headers: {
       "Content-Type": "application/json"
     }

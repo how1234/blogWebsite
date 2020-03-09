@@ -26,27 +26,19 @@ const app = express();
 const graphQLSchema = require("./graphql/schema");
 
 const graphQLResolver = require("./graphql/resolver/index");
-const isAuth = require("./middleware/is-auth");
-
 
 const mongoURL = `mongodb+srv://${process.env["MONGO_USER"]}:${process.env["MONGO_PASSWORD"]}@cluster0-8z33n.mongodb.net/bloggers_DB?retryWrites=true&w=majority`;
-
-
-
 app.use(bodyParser.json());
 
 app.use(cors());
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, "react_front_end/build")));
 
-app.use(isAuth);
-
 app.use(
   "/graphql",
   graphQLMiddle({
     schema: graphQLSchema,
-    rootValue: graphQLResolver,
-    graphiql:true
+    rootValue: graphQLResolver
   })
 );
 app.post("/graphql", bruteforce.prevent, function(req, res, next) {

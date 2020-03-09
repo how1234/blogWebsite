@@ -59,7 +59,8 @@ type RootQuery{
     getBlogPost(_id:ID):BlogPost
     getAllTags:[Tag!]
     removeBlogPost(_id:ID):String!
-    login(email: String!, password: String!): AuthData!
+    login(email: String!, password: String!,keepLogin:Boolean!): AuthData!
+    authAsAdmin:Boolean!
 }
 
 

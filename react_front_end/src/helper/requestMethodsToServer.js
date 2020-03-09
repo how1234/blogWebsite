@@ -16,11 +16,9 @@ if(window.location.origin === "http://localhost:3000"){
 }else{
   url=`/graphql`
 }
-console.log(url)
+
 
 export const loginAsAdmin = async (email, password,checked) => {
-  console.log(checked)
-  console.log(login_requestBody(email, password,checked))
   return await fetch(url, {
     method: "POST",
     body: JSON.stringify(login_requestBody(email, password,checked)),
@@ -30,7 +28,6 @@ export const loginAsAdmin = async (email, password,checked) => {
   })
     .then(res => {
       if (res.status.toString()[0] == 5) {
-        console.log(res)
         return new Error("User doesn't existed or password is incorrect");
       } else if (res.status.toString()[0] == 4) {
         return new Error(res.status);
@@ -58,8 +55,6 @@ export const authToServer = async (userData) => {
     }
   })
     .then(res => {
-
-      console.log(res.json)
       return res.json();
     })
     .then(resData => {
@@ -141,7 +136,6 @@ export const getABlogPost = async id => {
 
 
 export const updateABlogPost = async ( {id,title,text}, userData,selectedTags) => {
-  console.log(updateBlogPost_requestBody(id,title,text,selectedTags))
   return await fetch(url, {
     method: "POST",
     body: JSON.stringify(updateBlogPost_requestBody(id,title,text,selectedTags)),

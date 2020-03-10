@@ -64,9 +64,8 @@ const HomePage = () => {
             <div>no data</div>
           ) : (
             <Fragment>
-            <VistorPostsList list={dataList} />
+              <VistorPostsList list={dataList} />
             </Fragment>
-         
           )
         ) : (
           <Spin></Spin>

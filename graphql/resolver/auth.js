@@ -24,7 +24,7 @@ module.exports = {
       throw err;
     }
   },
-  login: async ({ email, password,keepLogin }, req) => {
+  login: async ({ email, password, keepLogin }, req) => {
     const user = await User.findOne({ email: email });
     if (!user) {
       throw new Error("User does not exist!");
@@ -34,15 +34,15 @@ module.exports = {
     if (!isEqual) {
       throw new Error("Password is incorrect!");
     }
-    let token
-    if(keepLogin){
+    let token;
+    if (keepLogin) {
       token = jwt.sign(
         { userId: user.id, email: user.email },
         "somesecretkey",
         { expiresIn: "144h", algorithm: "HS256" }
       );
       return { userId: user.id, token: token, tokenExpiration: 144 };
-    }else{
+    } else {
       token = jwt.sign(
         { userId: user.id, email: user.email },
         "somesecretkey",
@@ -50,43 +50,35 @@ module.exports = {
       );
       return { userId: user.id, token: token, tokenExpiration: 6 };
     }
-    
-    
-    
   },
   authAsAdmin: async (_, req) => {
     const authHeader = req.get("Authorization");
-    console.log(authHeader)
-    
+
     if (!authHeader) {
-      console.log("error1")
       req.isAuth = false;
-      return false
+      return false;
     }
 
     const token = authHeader;
 
     if (!token || token === "") {
       req.isAuth = false;
-      return false
+      return false;
     }
     let decodedToken;
     try {
-   
       decodedToken = jwt.verify(token, "somesecretkey");
-      console.log(decodedToken)
-   
     } catch (err) {
       req.isAuth = false;
-      return false
+      return false;
     }
-   
+
     if (!decodedToken) {
       req.isAuth = false;
-      return false
+      return false;
     }
     req.isAuth = true;
     req.userId = decodedToken.userId;
-    return true
+    return true;
   }
 };

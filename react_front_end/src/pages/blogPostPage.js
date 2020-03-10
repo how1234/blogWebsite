@@ -1,13 +1,11 @@
 import React, { useEffect, useState, Fragment } from "react";
-import ReactMarkdown from "react-markdown";
+import Markdown from 'markdown-to-jsx';
+import '../github-markdown.css'
 import {
   Spin,
-  Layout,
   Divider,
   PageHeader,
-  Button,
   Descriptions,
-  Row
 } from "antd";
 import { useHistory, useParams } from "react-router-dom";
 
@@ -83,8 +81,8 @@ export const BlogPostPage = () => {
           <Divider></Divider>
           <div style={{padding:"8px 20px 8px 20px"}}>
 
+            <Markdown className="markdown-body"  children={text}/>
           
-          <ReactMarkdown source={text} />
           </div>
         </Fragment>
       )}

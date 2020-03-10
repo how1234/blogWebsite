@@ -73,7 +73,6 @@ const UploadWidgits = () => {
     } else {
       try {
         const result = await createNewTag(newTagName.trim(), { token, userId });
-        console.log(result);
         if (result.errors) {
           message.warn(result.errors[0].message);
         } else {

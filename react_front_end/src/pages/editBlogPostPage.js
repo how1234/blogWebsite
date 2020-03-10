@@ -1,7 +1,8 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import ReactMarkdown from "react-markdown";
+import Markdown from 'markdown-to-jsx';
 import { useSelector, useDispatch } from "react-redux";
+import '../github-markdown.css'
 
 import {
   getABlogPost,
@@ -64,7 +65,6 @@ export const EditBlogPostPage = props => {
             await fetchTags(dispatch);
             
             const post = await getABlogPost(post_id);
-            console.log(post)
             if (post) {
               setCurrentBlogPost(post);
               setText(post.text);
@@ -130,11 +130,11 @@ export const EditBlogPostPage = props => {
   }
   return (
     <Fragment>
-      <ReactMarkdown
-        className="markdown_div"
+      <Markdown
+        className="markdown-body"
         style={{ overflow: "hidden" }}
-        source={text}
-      ></ReactMarkdown>
+        children={text}
+      ></Markdown>
 
       <Row style={{ marginTop: "2%" }} type="flex" justify="center">
         <Row gutter={15}>

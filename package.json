@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
     "cstart": "concurrently \"nodemon app.js\" \"npm start --prefix ./react_front_end\" ",
-    "create-env": "printenv > .env"
+    "create-env": "printenv > .env",
+    "heroku-postbuild":"npm install --prefix ./react_front_end &&npm run build --prefix ./react_front_end "
   },
   "repository": {
     "type": "git",
